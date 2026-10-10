@@ -1,0 +1,16 @@
+match_id,date,opponent,status,started,minutes,source
+L01,2030-08-24,Synthetic FC 06,played,True,90,synthetic
+L02,2030-08-31,Synthetic FC 07,played,True,90,synthetic
+L03,2030-09-07,Synthetic FC 08,played,True,90,synthetic
+L04,2030-09-14,Synthetic FC 09,played,True,84,synthetic
+L05,2030-09-21,Synthetic FC 10,played,True,90,synthetic
+L06,2030-09-28,Synthetic FC 11,played,True,90,synthetic
+L07,2030-10-05,Synthetic FC 12,played,True,72,synthetic
+L08,2030-10-12,Synthetic FC 13,played,True,90,synthetic
+L09,2030-10-19,Synthetic FC 14,played,True,90,synthetic
+L10,2030-10-26,Synthetic FC 01,played,True,90,synthetic
+L11,2030-11-02,Synthetic FC 02,played,True,61,synthetic
+L12,2030-11-09,Synthetic FC 03,played,True,90,synthetic
+L13,2030-11-16,Synthetic FC 04,played,True,90,synthetic
+L14,2030-11-23,Synthetic FC 05,suspended,False,0,synthetic
+L15,2030-11-30,Synthetic FC 06,played,True,90,synthetic

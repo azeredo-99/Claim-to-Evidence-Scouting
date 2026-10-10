@@ -1,0 +1,11 @@
+id,question,statement,evidence_type,verdict,basis,recruitment_relevance,data_confidence
+C01,Q1,Creates shots for team-mates (set pieces included) at a top-quarter rate among peers.,league_position,PARTIALLY_SUPPORTED,"1.64 chances per 90 minutes (21 in 1150 min); higher than 28 of 41 peers (0 tied): above the median, below the top quarter",high,medium
+C02,Q1,The expected-assist value of his chance creation is top-quarter among peers.,league_position,SUPPORTED,0.44 xA per 90 minutes (5.68 in 1150 min); higher than 40 of 41 peers (0 tied): top quarter,high,medium
+C04,Q2,More than half of the chances he creates come from open play.,video_estimate,INCONCLUSIVE,9 of 13 (69%); 90% Wilson 46%–85%; threshold 50%; 1 with unknown phase excluded,high,low
+C05,Q1,Is rarely dispossessed relative to his involvement.,league_position,UNAVAILABLE,source does not provide: touches,medium,medium
+C06,Q1,Wins fouls at a top-quarter rate among peers.,league_position,SUPPORTED,3.52 fouls won per 90 minutes (45 in 1150 min); higher than 41 of 41 peers (0 tied): top quarter,medium,high
+C07,Q3,Low goal threat: non-penalty xG per 90 in the bottom quarter of peers.,league_position,NOT_SUPPORTED,0.41 npxG per 90 minutes (5.29 in 1150 min); lower than 3 of 41 peers (0 tied): at or below the median,medium,medium
+C16,Q3,Touches in the opposition box per 90 are top-quarter among peers.,league_position,SUPPORTED,4.70 touches per 90 minutes (60 in 1150 min); higher than 31 of 41 peers (0 tied): top quarter,medium,medium
+C08,Q4,"Low volume of tackles + interceptions per 90, with and without the possession correction.",league_position,SUPPORTED,0.94 actions per 90 minutes (12 in 1150 min); lower than 35 of 41 peers (0 tied): top quarter,high,medium
+C09,Q4,"As the left-sided player of his line, he tracks fewer than half of the full-back's runs.",video_estimate,INCONCLUSIVE,5 of 17 (29%); 90% Wilson 15%–49%; threshold 50%; sensitivity analyses disagree,high,medium
+C13,Q7,Protests to officials in most matches he plays.,video_count,SUPPORTED,protests seen in 4 of 6 coded matches,medium,medium

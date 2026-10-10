@@ -1,0 +1,11 @@
+id,evidence_type,verdict,basis
+C01,league_position,PARTIALLY_SUPPORTED,"1.64 chances per 90 minutes (21 in 1150 min); higher than 28 of 41 peers (0 tied): above the median, below the top quarter"
+C02,league_position,SUPPORTED,0.44 xA per 90 minutes (5.68 in 1150 min); higher than 40 of 41 peers (0 tied): top quarter
+C04,video_estimate,INCONCLUSIVE,9 of 13 (69%); 90% Wilson 46%–85%; threshold 50%; 1 with unknown phase excluded
+C05,league_position,UNAVAILABLE,source does not provide: touches
+C06,league_position,SUPPORTED,3.52 fouls won per 90 minutes (45 in 1150 min); higher than 41 of 41 peers (0 tied): top quarter
+C07,league_position,NOT_SUPPORTED,0.41 npxG per 90 minutes (5.29 in 1150 min); lower than 3 of 41 peers (0 tied): at or below the median
+C16,league_position,SUPPORTED,4.70 touches per 90 minutes (60 in 1150 min); higher than 31 of 41 peers (0 tied): top quarter
+C08,league_position,SUPPORTED,0.94 actions per 90 minutes (12 in 1150 min); lower than 35 of 41 peers (0 tied): top quarter
+C09,video_estimate,INCONCLUSIVE,5 of 17 (29%); 90% Wilson 15%–49%; threshold 50%; sensitivity analyses disagree
+C13,video_count,SUPPORTED,protests seen in 4 of 6 coded matches

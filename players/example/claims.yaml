@@ -1,0 +1,114 @@
+# FICTIONAL demo claims, mirroring the structure of a real scouting report.
+player_id: example-player
+status: draft
+method_version: 1.0-rc1
+questions:
+  Q1: Is his chance creation strong enough to justify the "creator" label?
+  Q2: How much of his creation depends on set pieces?
+  Q3: Is his goal threat consistent with "arrives in the box but does not score"?
+  Q4: What is the defensive cost of this profile?
+  Q7: What disciplinary risk does he carry?
+
+claims:
+  - id: C01
+    question: Q1
+    category: creation
+    report_text: "Very good at creating finishing situations."
+    statement: Creates shots for team-mates (set pieces included) at a top-quarter rate among peers.
+    rule: {type: league_position, metric: chances_created_p90, direction: high}
+    recruitment_relevance: high
+    data_confidence: medium
+    limitations: [Includes set pieces, which favours set-piece takers.]
+
+  - id: C02
+    question: Q1
+    category: creation
+    report_text: "Chance creation is his standout quality."
+    statement: The expected-assist value of his chance creation is top-quarter among peers.
+    rule: {type: league_position, metric: xa_p90, direction: high}
+    recruitment_relevance: high
+    data_confidence: medium
+    limitations: [Proprietary xA model.]
+
+  - id: C04
+    question: Q2
+    category: creation
+    report_text: "A playmaker, not just a set-piece taker."
+    statement: More than half of the chances he creates come from open play.
+    rule: {type: video_proportion, measure: open_play_share, direction: greater, threshold: 0.5}
+    recruitment_relevance: high
+    data_confidence: low
+
+  - id: C05
+    question: Q1
+    category: possession
+    report_text: "Protects the ball well."
+    statement: Is rarely dispossessed relative to his involvement.
+    rule: {type: league_position, metric: dispossessed_per100_touches, direction: low}
+    recruitment_relevance: medium
+    data_confidence: medium
+    limitations: [Does not count misplaced passes.]
+
+  - id: C06
+    question: Q1
+    category: possession
+    report_text: "Draws a lot of fouls."
+    statement: Wins fouls at a top-quarter rate among peers.
+    rule: {type: league_position, metric: fouls_won_p90, direction: high}
+    recruitment_relevance: medium
+    data_confidence: high
+
+  - id: C07
+    question: Q3
+    category: attacking
+    report_text: "Not a goalscorer."
+    statement: "Low goal threat: non-penalty xG per 90 in the bottom quarter of peers."
+    rule: {type: league_position, metric: npxg_p90, direction: low}
+    recruitment_relevance: medium
+    data_confidence: medium
+
+  - id: C16
+    question: Q3
+    category: attacking
+    report_text: "Often appears in finishing zones."
+    statement: Touches in the opposition box per 90 are top-quarter among peers.
+    rule: {type: league_position, metric: touches_opp_box_p90, direction: high}
+    recruitment_relevance: medium
+    data_confidence: medium
+
+  - id: C08
+    question: Q4
+    category: defensive
+    report_text: "Low defensive contribution."
+    statement: Low volume of tackles + interceptions per 90, with and without the possession correction.
+    rule: {type: league_position, metric: tackles_interceptions_p90, direction: low,
+           possession_variant: true}
+    recruitment_relevance: high
+    data_confidence: medium
+    limitations: [Volume, not commitment; role confounds it.]
+
+  - id: C09
+    question: Q4
+    category: defensive
+    report_text: "Does not track the opposing full-back."
+    statement: As the left-sided player of his line, he tracks fewer than half of the full-back's runs.
+    rule: {type: video_proportion, measure: tracking_rate, direction: less, threshold: 0.5}
+    recruitment_relevance: high
+    data_confidence: medium
+
+  - id: C13
+    question: Q7
+    category: discipline
+    report_text: "Protests often to the referee."
+    statement: Protests to officials in most matches he plays.
+    rule: {type: match_majority, measure: protest_matches}
+    recruitment_relevance: medium
+    data_confidence: medium
+
+untested:
+  - report_text: "Strong character."
+    reason: Not observable with match data or coded video.
+
+withdrawn:
+  - id: C03
+    reason: Demo of a claim withdrawn before pre-registration.

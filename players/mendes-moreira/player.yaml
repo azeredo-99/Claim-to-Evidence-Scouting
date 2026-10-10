@@ -1,0 +1,25 @@
+id: mendes-moreira
+name: Ahmad Mendes Moreira
+team: Kalamata FC
+provider_id: null # FotMob player id, filled at the field check
+attribution: "Data: FotMob (season totals, retrieved at the snapshot date); facts: slgr.gr; video coding: own"
+is_synthetic: false
+# Exact FotMob position labels to be confirmed at the field check (docs/DATA_SOURCES.md, item 14).
+peer_positions: [Attacking Midfielder, Left Winger, Right Winger]
+min_peers: 20
+video_n_min: 10
+video_z: 1.645
+match_min: 4
+snapshots:
+  v1:
+    purpose: private dry run (all league matches completed through round 10)
+    last_match_date: null # from the official calendar
+    snapshot_date: null # after last_match_date, before the next round
+    min_minutes: 450
+    strict_min_minutes: 675
+  v2:
+    purpose: first publication (all league matches completed before the winter break)
+    last_match_date: null
+    snapshot_date: null
+    min_minutes: 900
+    strict_min_minutes: 1080

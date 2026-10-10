@@ -1,0 +1,14 @@
+match_id,period,from_min,to_min,his_role,team_shape
+L01,1,0.0,50.0,wide_left,back4
+L01,2,45.0,100.0,wide_left,back4
+L02,1,0.0,50.0,wide_left,back4
+L02,2,45.0,100.0,front_two,back5
+L03,1,0.0,50.0,front_two,back5
+L03,2,45.0,100.0,front_two,back5
+L05,1,0.0,50.0,wide_left,back4
+L05,2,45.0,100.0,wide_left,back4
+L06,1,0.0,50.0,wide_left,back4
+L06,2,45.0,100.0,wide_left,back4
+L07,1,0.0,50.0,wide_left,back4
+L07,2,45.0,72.0,wide_left,back4
+L07,2,72.0,100.0,off,back4

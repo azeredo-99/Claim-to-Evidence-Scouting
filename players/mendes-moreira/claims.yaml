@@ -1,0 +1,159 @@
+# DRAFT — not pre-registered. Becomes `status: frozen` at the tag prereg-v1.0.
+# `report_text` quotes the scouting report (G. Azeredo, data as of 08/10/2026) verbatim.
+player_id: mendes-moreira
+status: draft
+method_version: 1.0-rc1
+questions:
+  Q1: Is his chance creation sustained by the indicators, or explained by a small early sample?
+  Q2: How much of his creation depends on set pieces?
+  Q3: Is his goal threat consistent with "arrives in the box but is not a goalscorer"?
+  Q4: What is the defensive cost of this profile?
+  Q7: What disciplinary risk does he carry?
+
+claims:
+  - id: C01
+    question: Q1
+    category: creation
+    report_text: "Chance Creation. Very good at creating finishing situations – 2.0 key passes per game and joint top assist provider in the league (3 in 5)."
+    statement: Creates shots for team-mates (set pieces included) at a top-quarter rate among league peers.
+    rule: { type: league_position, metric: chances_created_p90, direction: high }
+    recruitment_relevance: high
+    data_confidence: medium
+    limitations:
+      - Includes set pieces; he takes his team's corners and wide free kicks.
+      - A newly promoted team has fewer chances to create, which biases against the claim.
+
+  - id: C02
+    question: Q1
+    category: creation
+    report_text: "Passing. His standout attribute. Wide range – short combinations, crosses and high-quality long-distance passes that find runners behind the defensive line."
+    statement: The expected-assist value of his chance creation is top-quarter among league peers.
+    rule: { type: league_position, metric: xa_p90, direction: high }
+    recruitment_relevance: high
+    data_confidence: medium
+    limitations:
+      - Proprietary xA model; measures volume weighted by quality, not passing range.
+      - Read together with C01; the two are correlated and are not independent confirmations.
+
+  - id: C04
+    question: Q2
+    category: creation
+    report_text: "Playmaker Profile. His greatest virtue – prefers to receive to feet and organise the attack … Set Pieces. Responsible for his team's crossing set pieces (corners and wide free kicks) – one of his assists came from a corner."
+    statement: More than half of the chances he creates in the coded matches come from open play.
+    rule:
+      { type: video_proportion, measure: open_play_share, direction: greater, threshold: 0.5 }
+    recruitment_relevance: high
+    data_confidence: low
+    limitations:
+      - Six coded matches; about two chances per match expected, so the result may be inconclusive.
+
+  - id: C05
+    question: Q1
+    category: possession
+    report_text: "Ball Security. Rarely loses possession; protects the ball and looks for solutions without taking excessive risks."
+    statement: Is rarely dispossessed relative to his involvement (dispossessions per 100 touches in the bottom quarter of peers).
+    rule: { type: league_position, metric: dispossessed_per100_touches, direction: low }
+    recruitment_relevance: medium
+    data_confidence: medium
+    limitations:
+      - Tests only the "protects the ball" part; misplaced passes and decisions are not measured.
+
+  - id: C06
+    question: Q1
+    category: possession
+    report_text: "Drawing Fouls. Attracts contact and wins free kicks – 3.2 fouls won per game."
+    statement: Wins fouls at a top-quarter rate among league peers.
+    rule: { type: league_position, metric: fouls_won_p90, direction: high }
+    recruitment_relevance: medium
+    data_confidence: high
+
+  - id: C07
+    question: Q3
+    category: attacking
+    report_text: "Goal Output. Not a goalscorer – 0 goals this season and a low career rate."
+    statement: "Low goal threat: non-penalty xG per 90 in the bottom quarter of league peers."
+    rule: { type: league_position, metric: npxg_p90, direction: low }
+    recruitment_relevance: medium
+    data_confidence: medium
+    limitations:
+      - A newly promoted team creates fewer shots, which biases towards the claim.
+
+  - id: C16
+    question: Q3
+    category: attacking
+    report_text: "Arrival in the Box. When the ball is on the opposite flank, he frequently appears in finishing zones as an extra attacker."
+    statement: Touches in the opposition box per 90 are top-quarter among league peers.
+    rule: { type: league_position, metric: touches_opp_box_p90, direction: high }
+    recruitment_relevance: medium
+    data_confidence: medium
+    limitations:
+      - Counts touches in the box, not runs into it; does not isolate the "opposite flank" situation.
+
+  - id: C08
+    question: Q4
+    category: defensive
+    report_text: "Defensive Commitment. Low willingness to contribute without the ball; rarely drops to help his team-mates."
+    statement: Low volume of tackles + interceptions per 90 (bottom quarter of peers), raw and possession-adjusted.
+    rule:
+      {
+        type: league_position,
+        metric: tackles_interceptions_p90,
+        direction: low,
+        possession_variant: true,
+      }
+    recruitment_relevance: high
+    data_confidence: medium
+    limitations:
+      - Volume, not commitment; his role (front two vs wide) confounds it.
+
+  - id: C09
+    question: Q4
+    category: defensive
+    report_text: "Tracking Runners. Does not consistently follow the opposing full-back's forward runs, which can leave his own full-back exposed in 2v1 situations."
+    statement: When he is the left-sided player of his line, he tracks fewer than half of the opposing full-back's runs.
+    rule: { type: video_proportion, measure: tracking_rate, direction: less, threshold: 0.5 }
+    recruitment_relevance: high
+    data_confidence: medium
+    limitations:
+      - One coder; broadcast footage; only segments in which he plays wide left.
+
+  - id: C13
+    question: Q7
+    category: discipline
+    report_text: "Emotional Control. Protests frequently against referee decisions. Already 2 yellow cards in the first 5 league matches (vs Panetolikos and Aris)."
+    statement: Protests to officials in most matches he plays.
+    rule: { type: match_majority, measure: protest_matches }
+    recruitment_relevance: medium
+    data_confidence: medium
+    limitations:
+      - Broadcasts do not show every protest, so the count can only under-state.
+
+untested:
+  - report_text: "Resilience … strong character."
+    reason: Not observable with match data or coded video.
+  - report_text: "Big Moments."
+    reason: Anecdotal by nature; no pre-registrable test.
+  - report_text: "Team-First Mindset."
+    reason: No reliable observable; pass-vs-dribble choices depend on context the protocol does not capture.
+  - report_text: "Weak Foot. Uses his right foot very little."
+    reason: Not coded, to keep the protocol focused on the priority questions.
+  - report_text: "Pressing. Takes part in the press, but without much intensity."
+    reason: Intensity cannot be coded reliably from broadcast footage.
+  - report_text: "Decision Speed; Pace; Strength & Body Use (beyond C05)."
+    reason: Not measurable with the available data.
+  - report_text: "Fit for a club that lost its main creator."
+    reason: Requires the club's squad and game model; left to the scout's conclusion.
+
+withdrawn:
+  - id: C03
+    reason: Assists vs xA as a probability test is not interpretable as luck and is underpowered; kept as D1 (descriptive).
+  - id: C10
+    reason: Crosses from his zone cannot be attributed to him rather than the full-back; kept inside D2 as consequences.
+  - id: C11
+    reason: No baseline for a "strong" inside tendency; kept as D4 (reception map).
+  - id: C12
+    reason: Measures receptions, not runs; cannot separate "does not run" from "is not found"; kept in D4.
+  - id: C14
+    reason: Only descriptive evidence is possible; kept as D2.
+  - id: C15
+    reason: A minutes ratio does not measure availability; kept as D5 (facts).

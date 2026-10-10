@@ -1,0 +1,12 @@
+# Third-party raw data and private outputs never enter git.
+private/
+data/raw/
+data/processed/
+
+__pycache__/
+*.pyc
+.venv/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.hypothesis/

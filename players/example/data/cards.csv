@@ -1,0 +1,4 @@
+match_id,minute,card,reason,reason_source
+L03,55,yellow,dissent_confirmed,own video
+L08,71,yellow,foul,own video
+L12,88,yellow,unknown,no video available

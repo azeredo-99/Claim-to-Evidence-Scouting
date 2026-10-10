@@ -1,0 +1,19 @@
+# FICTIONAL demo player. All data in this folder is synthetic (scripts/make_synthetic.py).
+id: example-player
+name: Example Player
+team: Synthetic FC 05
+provider_id: SYN-000
+attribution: "Synthetic data — fictional players, teams and matches"
+is_synthetic: true
+peer_positions: [Attacking Midfielder, Left Winger, Right Winger]
+min_peers: 20
+video_n_min: 10
+video_z: 1.645
+match_min: 4
+snapshots:
+  v2:
+    purpose: demo of the publication snapshot
+    last_match_date: 2030-11-30
+    snapshot_date: 2030-12-21
+    min_minutes: 900
+    strict_min_minutes: 1080

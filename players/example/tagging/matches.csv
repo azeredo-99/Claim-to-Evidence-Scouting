@@ -1,0 +1,7 @@
+match_id,date,opponent,sample,minutes_played,protocol_version,video_source
+L01,2030-08-24,Synthetic FC 06,pre_report,90,1.0,synthetic
+L02,2030-08-31,Synthetic FC 07,pre_report,90,1.0,synthetic
+L03,2030-09-07,Synthetic FC 08,pre_report,90,1.0,synthetic
+L05,2030-09-21,Synthetic FC 10,post_freeze,90,1.0,synthetic
+L06,2030-09-28,Synthetic FC 11,post_freeze,90,1.0,synthetic
+L07,2030-10-05,Synthetic FC 12,post_freeze,72,1.0,synthetic
