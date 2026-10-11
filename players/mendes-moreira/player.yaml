@@ -23,6 +23,9 @@ snapshots:
     snapshot_date: 2026-12-22 # before round 16 (2027-01-09)
     min_minutes: 900
     strict_min_minutes: 1080
+# Video evidence closed on 2026-10-11 (docs/DEVIATIONS.md): the author watched the pre-report
+# matches live and no legitimate full-match replay exists for this league.
+video_unavailable_reason: "No legitimate full-match video of the league is available to the author (matches are on subscription TV; no official replays); the pre-report matches were watched live and cannot be re-watched."
 # Pre-registered video sample, fixed on 2026-10-11 before any of these matches is coded.
 # Post-freeze dates confirmed on slgr.gr (rounds 6–8).
 video_sample:

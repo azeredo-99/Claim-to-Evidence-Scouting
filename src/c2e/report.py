@@ -137,6 +137,11 @@ def write_report(run: RunResult, out_dir: Path) -> Path:
         "scout's own coding of a few matches (`video_estimate`, `video_count`). "
         "`INSUFFICIENT_DATA` and `UNAVAILABLE` are results, not failures.",
         "",
+        *(
+            [f"> **Video evidence unavailable:** {p.video_unavailable_reason}", ""]
+            if p.video_unavailable_reason
+            else []
+        ),
         "## Claims",
         "",
         f"![Claim board]({figures['claim_board']})",

@@ -145,7 +145,7 @@ def run(inputs: Inputs) -> RunResult:
         }
         video_ctx = VideoContext(inputs.events, match_ids, samples, p)
 
-    results = evaluate(inputs.claims.claims, league_ctx, video_ctx)
+    results = evaluate(inputs.claims.claims, league_ctx, video_ctx, p.video_unavailable_reason)
 
     subject = p.provider_id
     d1 = None

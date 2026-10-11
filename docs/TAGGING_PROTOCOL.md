@@ -4,6 +4,10 @@
 of another team, and before the first match of the video sample is coded. Changes after the freeze
 create a new version, and matches coded under different versions are reported separately.
 
+> **Case study status:** not used for Ahmad Mendes Moreira — no legitimate full-match video is
+> available (see `DEVIATIONS.md`). The protocol and the engine support stay in place for players
+> whose matches can be watched in full.
+
 ## 1. Scope
 
 Only what the claims and descriptive analyses need:

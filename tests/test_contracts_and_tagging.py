@@ -280,6 +280,25 @@ class TestTaggingCounts:
 
 
 def test_empty_tagging_templates_validate_and_give_insufficient_data(tmp_path) -> None:  # type: ignore[no-untyped-def]
+    import shutil
+    from pathlib import Path
+
+    from c2e.evidence import Verdict
+    from c2e.pipeline import load_inputs, run
+
+    root = Path(__file__).parents[1]
+    player = tmp_path / "p"
+    shutil.copytree(root / "players" / "example", player)
+    for name in ("matches", "segments", "events"):
+        path = player / "tagging" / f"{name}.csv"
+        path.write_text(path.read_text().splitlines()[0] + "\n")  # header only
+    result = run(load_inputs(player, player / "data", "v2", root / "config" / "metrics.yaml"))
+    verdicts = {r.claim.id: r.verdict for r in result.results}
+    assert verdicts["C09"] == Verdict.INSUFFICIENT_DATA
+    assert verdicts["C13"] == Verdict.INSUFFICIENT_DATA
+
+
+def test_declared_lack_of_video_makes_video_claims_unavailable_with_the_reason(tmp_path) -> None:  # type: ignore[no-untyped-def]
     from pathlib import Path
 
     from c2e.evidence import Verdict
@@ -291,7 +310,8 @@ def test_empty_tagging_templates_validate_and_give_insufficient_data(tmp_path) -
             root / "players" / "mendes-moreira", tmp_path, "v2", root / "config" / "metrics.yaml"
         )
     )
-    verdicts = {r.claim.id: r.verdict for r in result.results}
-    assert verdicts["C09"] == Verdict.INSUFFICIENT_DATA
-    assert verdicts["C13"] == Verdict.INSUFFICIENT_DATA
-    assert verdicts["C01"] == Verdict.UNAVAILABLE  # no league snapshot in the repository
+    by_id = {r.claim.id: r for r in result.results}
+    for cid in ("C04", "C09", "C13"):
+        assert by_id[cid].verdict == Verdict.UNAVAILABLE
+        assert "full-match video" in by_id[cid].summary
+    assert by_id["C01"].verdict == Verdict.UNAVAILABLE  # no league snapshot in the repository

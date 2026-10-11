@@ -162,6 +162,8 @@ class PlayerConfig(_Strict):
     match_min: int = Field(default=4, ge=2)
     snapshots: dict[str, Snapshot] = Field(min_length=1)
     video_sample: list[PlannedMatch] = []
+    # Set when no legitimate full-match video can be watched: video claims become UNAVAILABLE.
+    video_unavailable_reason: str | None = None
     data: DataPaths = DataPaths()
 
 

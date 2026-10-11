@@ -410,8 +410,13 @@ def evaluate_matches(claim: Claim, rule: MatchMajorityRule, ctx: VideoContext) -
 
 
 def evaluate(
-    claims: Sequence[Claim], league: LeagueContext | None, video: VideoContext | None
+    claims: Sequence[Claim],
+    league: LeagueContext | None,
+    video: VideoContext | None,
+    video_unavailable_reason: str | None = None,
 ) -> list[ClaimResult]:
+    """Apply each claim's rule. A declared lack of video access makes every video claim
+    UNAVAILABLE with that reason; it never turns into a substitute source."""
     results = []
     for claim in claims:
         rule = claim.rule
@@ -427,13 +432,14 @@ def evaluate(
                 )
             else:
                 results.append(evaluate_league(claim, rule, league))
-        elif video is None:
+        elif video is None or video_unavailable_reason:
             etype = (
                 EvidenceType.VIDEO_COUNT
                 if isinstance(rule, MatchMajorityRule)
                 else EvidenceType.VIDEO_ESTIMATE
             )
-            results.append(ClaimResult(claim, Verdict.UNAVAILABLE, etype, "no coded matches"))
+            reason = video_unavailable_reason or "no coded matches"
+            results.append(ClaimResult(claim, Verdict.UNAVAILABLE, etype, reason))
         elif isinstance(rule, VideoProportionRule):
             results.append(evaluate_video(claim, rule, video))
         else:
