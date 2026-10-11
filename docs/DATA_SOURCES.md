@@ -35,4 +35,4 @@ values**. Each line ends as `available` or `unavailable` with the date.
 | 15 | Any split of chances created by situation | C04 context | pending |
 | 16 | Which of items 2–5 exist on the subject's past seasons | D6 | pending |
 | 17 | slgr.gr match sheet: line-ups, substitution minutes, cards | D5, C13 | pending |
-| 18 | Official calendar: end of round 10, last round before 21 Dec, next match date | snapshots, video sample | pending |
+| 18 | Official calendar: end of round 10, last round before 21 Dec, next match date | snapshots, video sample | partial (2026-10-10, third-party listings, to confirm on [slgr.gr/en/schedule](https://www.slgr.gr/en/schedule/)): PAOK–Kalamata 12/10, Kalamata–OFI 18/10, Olympiacos–Kalamata 25/10, OFI–Kalamata 20/12; winter break from 21/12; end of round 10 not yet confirmed |

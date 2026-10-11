@@ -277,3 +277,21 @@ class TestTaggingCounts:
     def test_zone_centres(self) -> None:
         assert zone_centre("A", "LHS") == (100.0, 24.0)
         assert zone_centre("D", "RW") == (20.0, 71.0)
+
+
+def test_empty_tagging_templates_validate_and_give_insufficient_data(tmp_path) -> None:  # type: ignore[no-untyped-def]
+    from pathlib import Path
+
+    from c2e.evidence import Verdict
+    from c2e.pipeline import load_inputs, run
+
+    root = Path(__file__).parents[1]
+    result = run(
+        load_inputs(
+            root / "players" / "mendes-moreira", tmp_path, "v2", root / "config" / "metrics.yaml"
+        )
+    )
+    verdicts = {r.claim.id: r.verdict for r in result.results}
+    assert verdicts["C09"] == Verdict.INSUFFICIENT_DATA
+    assert verdicts["C13"] == Verdict.INSUFFICIENT_DATA
+    assert verdicts["C01"] == Verdict.UNAVAILABLE  # no league snapshot in the repository

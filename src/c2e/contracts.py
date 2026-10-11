@@ -67,6 +67,7 @@ LEAGUE = pa.DataFrameSchema(
         **_provenance(),
     },
     strict=False,
+    coerce=True,
 )
 
 TEAMS = pa.DataFrameSchema(
@@ -81,6 +82,7 @@ TEAMS = pa.DataFrameSchema(
         **_provenance(),
     },
     strict=False,
+    coerce=True,
 )
 
 FACTS = pa.DataFrameSchema(
@@ -99,6 +101,7 @@ FACTS = pa.DataFrameSchema(
         "source": pa.Column(str),
     },
     strict=False,
+    coerce=True,
 )
 
 CARDS = pa.DataFrameSchema(
@@ -110,6 +113,7 @@ CARDS = pa.DataFrameSchema(
         "reason_source": pa.Column(str),
     },
     strict=False,
+    coerce=True,
 )
 
 HISTORY = pa.DataFrameSchema(
@@ -125,6 +129,7 @@ HISTORY = pa.DataFrameSchema(
         **_provenance(),
     },
     strict=False,
+    coerce=True,
 )
 
 MATCHES = pa.DataFrameSchema(
@@ -138,6 +143,7 @@ MATCHES = pa.DataFrameSchema(
         "video_source": pa.Column(str),
     },
     strict=False,
+    coerce=True,
 )
 
 SEGMENTS = pa.DataFrameSchema(
@@ -150,6 +156,7 @@ SEGMENTS = pa.DataFrameSchema(
         "team_shape": pa.Column(str, pa.Check.isin(["back4", "back3", "back5", "unknown"])),
     },
     strict=False,
+    coerce=True,
 )
 
 EVENTS_SCHEMA = pa.DataFrameSchema(
@@ -167,6 +174,7 @@ EVENTS_SCHEMA = pa.DataFrameSchema(
         "note": pa.Column(str),
     },
     strict=False,
+    coerce=True,
 )
 
 _TEXT_COLUMNS = ("third", "lane", "outcome", "phase", "between_lines", "consequence", "note")
