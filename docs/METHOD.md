@@ -61,8 +61,9 @@ actually point the other way (video proportions).
 `last_match_date` and `snapshot_date` are filled from the official calendar, with
 `last_match_date < snapshot_date < first kick-off of the next round`. Postponed matches count only
 if played on or before `last_match_date`. For `v1` this is 2026-11-08 (last round-10 match on
-slgr.gr; Atromitos–AEK of round 7 had no date on 2026-10-11) with the snapshot on 2026-11-10. `v2`
-dates are filled by the same rule once the calendar shows the last round before 21 December.
+slgr.gr; Atromitos–AEK of round 7 had no date on 2026-10-11) with the snapshot on 2026-11-10. For `v2`
+this is 2026-12-20 (last match of round 15) with the snapshot on 2026-12-22, before round 16 on
+2027-01-09 (filled by the rule above after the pre-registration).
 
 ## 5. Metrics
 

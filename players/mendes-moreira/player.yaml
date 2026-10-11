@@ -19,8 +19,8 @@ snapshots:
     strict_min_minutes: 675
   v2:
     purpose: first publication (all league matches completed before the winter break)
-    last_match_date: null
-    snapshot_date: null
+    last_match_date: 2026-12-20 # last match of round 15 on slgr.gr
+    snapshot_date: 2026-12-22 # before round 16 (2027-01-09)
     min_minutes: 900
     strict_min_minutes: 1080
 # Pre-registered video sample, fixed on 2026-10-11 before any of these matches is coded.
