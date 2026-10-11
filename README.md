@@ -9,9 +9,9 @@ unavailable.
 It does not rate players, weight claims or recommend signings. The engine applies the rules; the
 scouting conclusion stays with the scout.
 
-> **Status:** engine and synthetic demo built and tested. The method (`docs/METHOD.md`) and the
-> claims for the real case study (`players/mendes-moreira/claims.yaml`) are **drafts awaiting
-> review** before the pre-registration tag `prereg-v1.0`. No real data has been collected yet.
+> **Status:** claims and method pre-registered at the tag `prereg-v1.0` (2026-10-11). The video
+> protocol is frozen separately after a pilot (`protocol-v1.0`). No real data collected yet; the
+> figures below come from synthetic data.
 
 ## Demo (synthetic data, runs anywhere)
 

@@ -26,7 +26,7 @@ League verdicts describe where the player's season value sits among peers (`leag
 | C06 | Q1 | league_position | SUPPORTED | 3.52 fouls won per 90 minutes (45 in 1150 min); higher than 41 of 41 peers (0 tied): top quarter |
 | C07 | Q3 | league_position | NOT_SUPPORTED | 0.41 npxG per 90 minutes (5.29 in 1150 min); lower than 3 of 41 peers (0 tied): at or below the median |
 | C16 | Q3 | league_position | SUPPORTED | 4.70 touches per 90 minutes (60 in 1150 min); higher than 31 of 41 peers (0 tied): top quarter |
-| C08 | Q4 | league_position | SUPPORTED | 0.94 actions per 90 minutes (12 in 1150 min); lower than 35 of 41 peers (0 tied): top quarter |
+| C08 | Q4 | league_position | SUPPORTED | 0.70 tackles per 90 minutes (9 in 1150 min); lower than 35 of 41 peers (0 tied): top quarter |
 | C09 | Q4 | video_estimate | INCONCLUSIVE | 5 of 17 (29%); 90% Wilson 15%–49%; threshold 50%; sensitivity analyses disagree |
 | C13 | Q7 | video_count | SUPPORTED | protests seen in 4 of 6 coded matches |
 
@@ -35,7 +35,7 @@ League verdicts describe where the player's season value sits among peers (`leag
 - **Report says:** "Very good at creating finishing situations."
 - **Tested statement:** Creates shots for team-mates (set pieces included) at a top-quarter rate among peers.
 - **Evidence type:** league_position
-- **Rule:** `{"type":"league_position","metric":"chances_created_p90","direction":"high","possession_variant":false}`
+- **Rule:** `{"type":"league_position","metric":"chances_created_p90","direction":"high","possession_variant":false,"variant_metrics":[]}`
 - **Result:** 1.64 chances per 90 minutes (21 in 1150 min); higher than 28 of 41 peers (0 tied): above the median, below the top quarter
 - **Analyses (main + pre-registered sensitivity):**
   - main: PARTIALLY_SUPPORTED — higher than 28 of 41 peers (0 tied): above the median, below the top quarter
@@ -47,7 +47,7 @@ League verdicts describe where the player's season value sits among peers (`leag
 - **Report says:** "Chance creation is his standout quality."
 - **Tested statement:** The expected-assist value of his chance creation is top-quarter among peers.
 - **Evidence type:** league_position
-- **Rule:** `{"type":"league_position","metric":"xa_p90","direction":"high","possession_variant":false}`
+- **Rule:** `{"type":"league_position","metric":"xa_p90","direction":"high","possession_variant":false,"variant_metrics":[]}`
 - **Result:** 0.44 xA per 90 minutes (5.68 in 1150 min); higher than 40 of 41 peers (0 tied): top quarter
 - **Analyses (main + pre-registered sensitivity):**
   - main: SUPPORTED — higher than 40 of 41 peers (0 tied): top quarter
@@ -72,7 +72,7 @@ League verdicts describe where the player's season value sits among peers (`leag
 - **Report says:** "Protects the ball well."
 - **Tested statement:** Is rarely dispossessed relative to his involvement.
 - **Evidence type:** league_position
-- **Rule:** `{"type":"league_position","metric":"dispossessed_per100_touches","direction":"low","possession_variant":false}`
+- **Rule:** `{"type":"league_position","metric":"dispossessed_per100_touches","direction":"low","possession_variant":false,"variant_metrics":[]}`
 - **Result:** source does not provide: touches
 - **Limitations:** Does not count misplaced passes.
 
@@ -81,7 +81,7 @@ League verdicts describe where the player's season value sits among peers (`leag
 - **Report says:** "Draws a lot of fouls."
 - **Tested statement:** Wins fouls at a top-quarter rate among peers.
 - **Evidence type:** league_position
-- **Rule:** `{"type":"league_position","metric":"fouls_won_p90","direction":"high","possession_variant":false}`
+- **Rule:** `{"type":"league_position","metric":"fouls_won_p90","direction":"high","possession_variant":false,"variant_metrics":[]}`
 - **Result:** 3.52 fouls won per 90 minutes (45 in 1150 min); higher than 41 of 41 peers (0 tied): top quarter
 - **Analyses (main + pre-registered sensitivity):**
   - main: SUPPORTED — higher than 41 of 41 peers (0 tied): top quarter
@@ -92,7 +92,7 @@ League verdicts describe where the player's season value sits among peers (`leag
 - **Report says:** "Not a goalscorer."
 - **Tested statement:** Low goal threat: non-penalty xG per 90 in the bottom quarter of peers.
 - **Evidence type:** league_position
-- **Rule:** `{"type":"league_position","metric":"npxg_p90","direction":"low","possession_variant":false}`
+- **Rule:** `{"type":"league_position","metric":"npxg_p90","direction":"low","possession_variant":false,"variant_metrics":[]}`
 - **Result:** 0.41 npxG per 90 minutes (5.29 in 1150 min); lower than 3 of 41 peers (0 tied): at or below the median
 - **Analyses (main + pre-registered sensitivity):**
   - main: NOT_SUPPORTED — lower than 3 of 41 peers (0 tied): at or below the median
@@ -103,7 +103,7 @@ League verdicts describe where the player's season value sits among peers (`leag
 - **Report says:** "Often appears in finishing zones."
 - **Tested statement:** Touches in the opposition box per 90 are top-quarter among peers.
 - **Evidence type:** league_position
-- **Rule:** `{"type":"league_position","metric":"touches_opp_box_p90","direction":"high","possession_variant":false}`
+- **Rule:** `{"type":"league_position","metric":"touches_opp_box_p90","direction":"high","possession_variant":false,"variant_metrics":[]}`
 - **Result:** 4.70 touches per 90 minutes (60 in 1150 min); higher than 31 of 41 peers (0 tied): top quarter
 - **Analyses (main + pre-registered sensitivity):**
   - main: SUPPORTED — higher than 31 of 41 peers (0 tied): top quarter
@@ -112,14 +112,15 @@ League verdicts describe where the player's season value sits among peers (`leag
 ### C08 — supported
 
 - **Report says:** "Low defensive contribution."
-- **Tested statement:** Low volume of tackles + interceptions per 90, with and without the possession correction.
+- **Tested statement:** Low volume of tackles per 90, with and without the possession correction.
 - **Evidence type:** league_position
-- **Rule:** `{"type":"league_position","metric":"tackles_interceptions_p90","direction":"low","possession_variant":true}`
-- **Result:** 0.94 actions per 90 minutes (12 in 1150 min); lower than 35 of 41 peers (0 tied): top quarter
+- **Rule:** `{"type":"league_position","metric":"tackles_p90","direction":"low","possession_variant":true,"variant_metrics":["tackles_interceptions_p90"]}`
+- **Result:** 0.70 tackles per 90 minutes (9 in 1150 min); lower than 35 of 41 peers (0 tied): top quarter
 - **Analyses (main + pre-registered sensitivity):**
   - main: SUPPORTED — lower than 35 of 41 peers (0 tied): top quarter
   - strict_minutes: SUPPORTED — lower than 22 of 26 peers (0 tied): top quarter
-  - possession_adjusted: SUPPORTED — lower than 32 of 36 peers (0 tied): top quarter
+  - possession_adjusted: SUPPORTED — lower than 30 of 36 peers (0 tied): top quarter
+  - metric:tackles_interceptions_p90: SUPPORTED — lower than 35 of 41 peers (0 tied): top quarter
 - **Limitations:** Volume not commitment; role confounds it.
 
 ### C09 — inconclusive

@@ -188,3 +188,33 @@ def test_subject_missing_from_snapshot_is_a_configuration_error() -> None:
     df = df[df["player_id"] != "S"]
     with pytest.raises(ValueError):
         run(claim("fouls_won_p90"), df)
+
+
+def test_metric_variant_is_evaluated_where_available_and_never_replaces_the_main_metric() -> None:
+    df = league(n_peers=20)
+    c = Claim(
+        id="C",
+        question="Q",
+        category="defensive",
+        report_text="r",
+        statement="s",
+        rule=LeaguePositionRule(
+            type="league_position",
+            metric="tackles_p90",
+            direction="low",
+            variant_metrics=["tackles_interceptions_p90"],
+        ),
+        recruitment_relevance="high",
+        data_confidence="high",
+    )
+    rule = c.rule
+    assert isinstance(rule, LeaguePositionRule)
+    ok = evaluate_league(c, rule, LeagueContext(df, None, METRICS, PLAYER, SNAP))
+    variant = next(a for a in ok.analyses if a.name == "metric:tackles_interceptions_p90")
+    assert variant.verdict is not None
+
+    df.loc[df["player_id"] == "S", "interceptions"] = np.nan  # row absent for the subject
+    res = evaluate_league(c, rule, LeagueContext(df, None, METRICS, PLAYER, SNAP))
+    variant = next(a for a in res.analyses if a.name == "metric:tackles_interceptions_p90")
+    assert variant.verdict is None and "subject" in variant.detail
+    assert res.verdict == res.analyses[0].verdict  # main metric decides; nothing is treated as zero

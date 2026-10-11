@@ -1,11 +1,11 @@
 id: mendes-moreira
 name: Ahmad Mendes Moreira
 team: Kalamata FC
-provider_id: null # FotMob player id, filled at the field check
+provider_id: "947883" # FotMob player id (field check 2026-10-11)
 attribution: "Data: FotMob (season totals, retrieved at the snapshot date); facts: slgr.gr; video coding: own"
 is_synthetic: false
-# Exact FotMob position labels to be confirmed at the field check (docs/DATA_SOURCES.md, item 14).
-peer_positions: [Attacking Midfielder, Left Winger, Right Winger]
+# FotMob position labels (field check 2026-10-11). A player counts by his FIRST listed position.
+peer_positions: [Attacking Midfielder, Left Winger, Right Winger, Left Midfielder, Right Midfielder]
 min_peers: 20
 video_n_min: 10
 video_z: 1.645
@@ -13,8 +13,8 @@ match_min: 4
 snapshots:
   v1:
     purpose: private dry run (all league matches completed through round 10)
-    last_match_date: null # from the official calendar
-    snapshot_date: null # after last_match_date, before the next round
+    last_match_date: 2026-11-08 # last round-10 match on slgr.gr; postponed matches count only if played by then
+    snapshot_date: 2026-11-10 # before round 11
     min_minutes: 450
     strict_min_minutes: 675
   v2:
@@ -23,3 +23,12 @@ snapshots:
     snapshot_date: null
     min_minutes: 900
     strict_min_minutes: 1080
+# Pre-registered video sample, fixed on 2026-10-11 before any of these matches is coded.
+# Post-freeze dates confirmed on slgr.gr (rounds 6–8).
+video_sample:
+  - { sample: pre_report, opponent: Aris }
+  - { sample: pre_report, opponent: Volos }
+  - { sample: pre_report, opponent: Panathinaikos }
+  - { sample: post_freeze, opponent: PAOK, date: 2026-10-12 }
+  - { sample: post_freeze, opponent: OFI, date: 2026-10-18 }
+  - { sample: post_freeze, opponent: Olympiacos, date: 2026-10-25 }

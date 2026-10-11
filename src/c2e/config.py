@@ -34,6 +34,8 @@ class LeaguePositionRule(_Strict):
     metric: str
     direction: Literal["high", "low"]
     possession_variant: bool = False
+    # Sensitivity analyses with a related metric, evaluated only where the source provides it.
+    variant_metrics: list[str] = []
 
 
 class VideoProportionRule(_Strict):
@@ -128,6 +130,14 @@ class Snapshot(_Strict):
         return self
 
 
+class PlannedMatch(_Strict):
+    """A match in the pre-registered video sample, fixed before any of them is coded."""
+
+    sample: Literal["pre_report", "post_freeze"]
+    opponent: str
+    date: dt.date | None = None
+
+
 class DataPaths(_Strict):
     """Paths relative to the data directory given at run time."""
 
@@ -151,6 +161,7 @@ class PlayerConfig(_Strict):
     video_z: float = Field(default=1.645, gt=0)
     match_min: int = Field(default=4, ge=2)
     snapshots: dict[str, Snapshot] = Field(min_length=1)
+    video_sample: list[PlannedMatch] = []
     data: DataPaths = DataPaths()
 
 
@@ -170,6 +181,8 @@ def load_player(path: Path) -> PlayerConfig:
 def load_claims(path: Path, metrics: dict[str, MetricDef]) -> ClaimsFile:
     claims = ClaimsFile.model_validate(_read_yaml(path))
     for claim in claims.claims:
-        if isinstance(claim.rule, LeaguePositionRule) and claim.rule.metric not in metrics:
-            raise ValueError(f"{claim.id}: unknown metric {claim.rule.metric!r}")
+        if isinstance(claim.rule, LeaguePositionRule):
+            for name in [claim.rule.metric, *claim.rule.variant_metrics]:
+                if name not in metrics:
+                    raise ValueError(f"{claim.id}: unknown metric {name!r}")
     return claims

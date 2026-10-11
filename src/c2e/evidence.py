@@ -205,6 +205,9 @@ def evaluate_league(claim: Claim, rule: LeaguePositionRule, ctx: LeagueContext) 
     ]
     if rule.possession_variant:
         analyses.append(_possession_analysis(ctx, mv.values, subject_id, rule))
+    analyses += [
+        _metric_variant_analysis(ctx, name, subject_id, rule) for name in rule.variant_metrics
+    ]
 
     main = analyses[0]
     if main.verdict is None:
@@ -216,6 +219,29 @@ def evaluate_league(claim: Claim, rule: LeaguePositionRule, ctx: LeagueContext) 
     if final != main.verdict:
         summary += "; a sensitivity analysis lowers the verdict"
     return ClaimResult(claim, final, etype, summary, tuple(analyses))
+
+
+def _metric_variant_analysis(
+    ctx: LeagueContext, name: str, subject_id: str, rule: LeaguePositionRule
+) -> Analysis:
+    """The same rule with a related metric; never replaces the main metric."""
+    label = f"metric:{name}"
+    metric = ctx.metrics[name]
+    absent = missing_columns(ctx.league, metric)
+    if absent:
+        return Analysis(label, None, f"not evaluable: source does not provide {', '.join(absent)}")
+    mv = compute_metric(ctx.league, metric)
+    if subject_id not in mv.values.index:
+        reason = mv.excluded.get(subject_id, "no value")
+        return Analysis(label, None, f"not evaluable: subject {reason}")
+    return _position_analysis(
+        label,
+        subject_id,
+        mv.values,
+        _eligible(ctx, ctx.snapshot.min_minutes, subject_id),
+        rule,
+        ctx.player.min_peers,
+    )
 
 
 def _possession_analysis(

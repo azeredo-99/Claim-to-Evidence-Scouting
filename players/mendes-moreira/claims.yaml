@@ -1,8 +1,8 @@
-# DRAFT — not pre-registered. Becomes `status: frozen` at the tag prereg-v1.0.
+# Pre-registered at the tag prereg-v1.0 (2026-10-11). Changes create a new version; see docs/DEVIATIONS.md.
 # `report_text` quotes the scouting report (G. Azeredo, data as of 08/10/2026) verbatim.
 player_id: mendes-moreira
-status: draft
-method_version: 1.0-rc1
+status: frozen
+method_version: "1.0"
 questions:
   Q1: Is his chance creation sustained by the indicators, or explained by a small early sample?
   Q2: How much of his creation depends on set pieces?
@@ -93,18 +93,20 @@ claims:
     question: Q4
     category: defensive
     report_text: "Defensive Commitment. Low willingness to contribute without the ball; rarely drops to help his team-mates."
-    statement: Low volume of tackles + interceptions per 90 (bottom quarter of peers), raw and possession-adjusted.
+    statement: Low volume of tackles per 90 (bottom quarter of peers), raw and possession-adjusted; tackles + interceptions as a sensitivity check where available.
     rule:
       {
         type: league_position,
-        metric: tackles_interceptions_p90,
+        metric: tackles_p90,
         direction: low,
         possession_variant: true,
+        variant_metrics: [tackles_interceptions_p90],
       }
     recruitment_relevance: high
     data_confidence: medium
     limitations:
       - Volume, not commitment; his role (front two vs wide) confounds it.
+      - Tackles only as the main metric because FotMob omits the Interceptions row for some players (field check 2026-10-11); an absent row is never read as zero. This is the conservative choice for a weakness claim.
 
   - id: C09
     question: Q4

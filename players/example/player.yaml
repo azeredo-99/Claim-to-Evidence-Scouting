@@ -17,3 +17,10 @@ snapshots:
     snapshot_date: 2030-12-21
     min_minutes: 900
     strict_min_minutes: 1080
+video_sample:
+  - { sample: pre_report, opponent: Synthetic FC 06, date: 2030-08-24 }
+  - { sample: pre_report, opponent: Synthetic FC 07, date: 2030-08-31 }
+  - { sample: pre_report, opponent: Synthetic FC 08, date: 2030-09-07 }
+  - { sample: post_freeze, opponent: Synthetic FC 10, date: 2030-09-21 }
+  - { sample: post_freeze, opponent: Synthetic FC 11, date: 2030-09-28 }
+  - { sample: post_freeze, opponent: Synthetic FC 12, date: 2030-10-05 }

@@ -1,5 +1,6 @@
 # League metrics. Column names refer to the snapshot CSV (see src/c2e/contracts.py).
-# `source_label` is the label as shown by the provider; confirm it at the field check.
+# `source_label` is the label shown by FotMob in a player's "Season performance" section
+# (field check of 2026-10-11, docs/VERIFICATION_2026-10-11.md). Totals are the default view.
 metrics:
   chances_created_p90:
     label: Chances created per 90
@@ -7,7 +8,7 @@ metrics:
     denominator: minutes
     scale: 90
     unit: chances per 90 minutes
-    source_label: FotMob "Chances created"
+    source_label: FotMob "Chances created" (Passing)
     definition: Passes after which a team-mate shoots (assists included), per 90 minutes played.
     limitations:
       - Provider definition; includes set pieces, which favours set-piece takers.
@@ -19,7 +20,7 @@ metrics:
     denominator: minutes
     scale: 90
     unit: xA per 90 minutes
-    source_label: FotMob "Expected assists (xA)"
+    source_label: FotMob "Expected assists (xA)" (Passing)
     definition: Sum of the provider's expected-goal value of shots assisted by the player, per 90.
     limitations:
       - Proprietary model; not comparable across providers.
@@ -31,7 +32,7 @@ metrics:
     denominator: touches
     scale: 100
     unit: dispossessions per 100 touches
-    source_label: FotMob "Dispossessed" / "Touches"
+    source_label: FotMob "Dispossessed" and "Touches" (Possession)
     definition: Times the player lost the ball to an opponent's challenge, per 100 touches.
     limitations:
       - Does not count misplaced passes or poor decisions.
@@ -42,7 +43,7 @@ metrics:
     denominator: minutes
     scale: 90
     unit: fouls won per 90 minutes
-    source_label: FotMob "Fouls won"
+    source_label: FotMob "Fouls won" (Possession)
     definition: Fouls committed against the player, per 90 minutes played.
     limitations:
       - Depends on referees and opponents as well as on the player.
@@ -53,7 +54,7 @@ metrics:
     denominator: minutes
     scale: 90
     unit: npxG per 90 minutes
-    source_label: FotMob "Non-penalty xG"
+    source_label: FotMob "Non-penalty xG" (Shooting)
     definition: Sum of the provider's expected-goal value of the player's non-penalty shots, per 90.
     limitations:
       - Proprietary model; team strength raises shot volume.
@@ -64,10 +65,23 @@ metrics:
     denominator: minutes
     scale: 90
     unit: touches per 90 minutes
-    source_label: FotMob "Touches in opposition box"
+    source_label: FotMob "Touches in opposition box" (Possession)
     definition: Touches of the ball inside the opponent's penalty area, per 90 minutes played.
     limitations:
       - Counts touches, not runs; a run that is not found by a pass is not counted.
+
+  tackles_p90:
+    label: Tackles per 90
+    numerator: [tackles]
+    denominator: minutes
+    scale: 90
+    unit: tackles per 90 minutes
+    source_label: FotMob "Tackles" (Defending)
+    definition: Tackles per 90 minutes played (raw volume).
+    limitations:
+      - The provider does not say whether attempts or only won tackles are counted.
+      - Volume, not commitment or positioning.
+      - Mixes behaviour, role and how often the opponent has the ball.
 
   tackles_interceptions_p90:
     label: Tackles + interceptions per 90
@@ -75,8 +89,8 @@ metrics:
     denominator: minutes
     scale: 90
     unit: actions per 90 minutes
-    source_label: FotMob tackles label (confirm) + "Interceptions"
-    definition: Successful defensive interventions per 90 minutes played (raw volume).
+    source_label: FotMob "Tackles" + "Interceptions" (Defending)
+    definition: Tackles and interceptions per 90 minutes played (raw volume).
     limitations:
+      - The "Interceptions" row is absent for some players; an absent row is missing, never zero.
       - Volume, not commitment or positioning.
-      - Mixes behaviour, role and how often the opponent has the ball.

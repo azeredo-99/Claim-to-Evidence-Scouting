@@ -54,6 +54,28 @@ def _optional(path: Path) -> pd.DataFrame | None:
     return contracts.read_csv(path) if path.exists() else None
 
 
+def check_video_sample(matches: pd.DataFrame, player: PlayerConfig) -> None:
+    """Coded matches must belong to the pre-registered sample (no picking matches afterwards)."""
+    if not player.video_sample:
+        return
+    problems = []
+    for row in contracts.records(matches[matches["sample"] != "pilot"]):
+        date = pd.Timestamp(row["date"]).date()
+        ok = any(
+            p.sample == row["sample"]
+            and p.opponent == row["opponent"]
+            and (p.date is None or p.date == date)
+            for p in player.video_sample
+        )
+        if not ok:
+            problems.append(f"{row['match_id']} ({row['sample']}, {row['opponent']}, {date})")
+    if problems:
+        raise contracts.DataContractError(
+            "matches outside the pre-registered video sample:\n"
+            + "\n".join(f"  - {p}" for p in problems)
+        )
+
+
 def load_inputs(player_dir: Path, data_dir: Path, snapshot_name: str, metrics_path: Path) -> Inputs:
     metrics = load_metrics(metrics_path)
     player = load_player(player_dir / "player.yaml")
@@ -87,6 +109,7 @@ def load_inputs(player_dir: Path, data_dir: Path, snapshot_name: str, metrics_pa
             contracts.read_csv(tag_dir / "events.csv"),
         )
         events = tagging.with_roles(raw_events, segments)
+        check_video_sample(matches, player)
 
     return Inputs(
         player,

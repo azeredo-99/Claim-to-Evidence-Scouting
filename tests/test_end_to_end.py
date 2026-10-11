@@ -72,7 +72,8 @@ def test_real_player_configuration_is_valid_and_carries_no_data() -> None:
     inputs = load_inputs(
         player_dir, ROOT / "private" / "does-not-exist", "v2", ROOT / "config" / "metrics.yaml"
     )
-    assert inputs.claims.status == "draft"
+    assert inputs.claims.status == "frozen"
+    assert inputs.player.provider_id == "947883"
     assert len(inputs.claims.claims) == 10
     assert inputs.league is None  # no third-party data ships with the repository
 
@@ -81,3 +82,21 @@ def test_only_synthetic_tables_are_committed() -> None:
     for csv in ROOT.glob("players/*/data/*.csv"):
         table = pd.read_csv(csv)
         assert "source" not in table.columns or set(table["source"]) == {"synthetic"}, csv
+
+
+def test_coded_matches_must_belong_to_the_pre_registered_sample(tmp_path: Path) -> None:
+    import shutil
+
+    from c2e.contracts import DataContractError
+
+    player = tmp_path / "p"
+    shutil.copytree(EXAMPLE, player)
+    matches = pd.read_csv(player / "tagging" / "matches.csv")
+    matches.loc[matches["match_id"] == "L07", "opponent"] = "Synthetic FC 13"  # not in the plan
+    matches.to_csv(player / "tagging" / "matches.csv", index=False)
+    try:
+        load_inputs(player, player / "data", "v2", ROOT / "config" / "metrics.yaml")
+    except DataContractError as exc:
+        assert "L07" in str(exc)
+    else:
+        raise AssertionError("a match outside the plan was accepted")

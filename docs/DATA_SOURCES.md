@@ -11,28 +11,28 @@
 Not used: StatsBomb Open Data and football-data.org (no coverage of this league), Sofascore and
 Transfermarkt (terms do not allow extraction).
 
-## Field check (before the freeze)
+## Field check (2026-10-11)
 
-Done on the page of a player who can never be a peer (a centre-back), recording **labels only, no
-values**. Each line ends as `available` or `unavailable` with the date.
+Labels only, no values; details and URLs in [`VERIFICATION_2026-10-11.md`](VERIFICATION_2026-10-11.md).
+Reference page: a Kalamata centre-back, who can never be a peer.
 
 | # | Item | Needed for | Result |
 |---|---|---|---|
-| 1 | Season tab is "Super League 1 2026/2027" and values are totals | all | pending |
-| 2 | Minutes played | all | pending |
-| 3 | Chances created | C01, D3 | pending |
-| 4 | Expected assists (xA) | C02, D1, D6 | pending |
-| 5 | Non-penalty xG | C07, D6 | pending |
-| 6 | Touches | C05 | pending |
-| 7 | Touches in opposition box | C16 | pending |
-| 8 | Dispossessed | C05 | pending |
-| 9 | Fouls won | C06 | pending |
-| 10 | Tackles label (tackles / tackles won) | C08 | pending |
-| 11 | Interceptions | C08 | pending |
-| 12 | Assists, goals, yellow cards | D1, D5 | pending |
-| 13 | Team average possession (team page) | C08 variant | pending |
-| 14 | Position labels on squad pages (AM, LW, RW) | peer group | pending |
-| 15 | Any split of chances created by situation | C04 context | pending |
-| 16 | Which of items 2–5 exist on the subject's past seasons | D6 | pending |
-| 17 | slgr.gr match sheet: line-ups, substitution minutes, cards | D5, C13 | pending |
-| 18 | Official calendar: end of round 10, last round before 21 Dec, next match date | snapshots, video sample | partial (2026-10-10, third-party listings, to confirm on [slgr.gr/en/schedule](https://www.slgr.gr/en/schedule/)): PAOK–Kalamata 12/10, Kalamata–OFI 18/10, Olympiacos–Kalamata 25/10, OFI–Kalamata 20/12; winter break from 21/12; end of round 10 not yet confirmed |
+| 1 | Season tab "Super League 1 2026/2027", totals by default (Per 90 toggle available) | all | available |
+| 2 | `Minutes played` | all | available |
+| 3 | `Chances created` | C01, D3 | available |
+| 4 | `Expected assists (xA)` | C02, D1 | available (current season) |
+| 5 | `Non-penalty xG` | C07 | available (current season) |
+| 6 | `Touches` | C05 | available |
+| 7 | `Touches in opposition box` | C16 | available |
+| 8 | `Dispossessed` | C05 | available |
+| 9 | `Fouls won` | C06 | available |
+| 10 | `Tackles` (attempts or won not stated) | C08 | available |
+| 11 | `Interceptions` | C08 variant | **not shown for some attacking players, including the subject** → treated as missing |
+| 12 | Assists, goals, yellow cards | D1, D5 | available |
+| 13 | `Average possession` (team stats, all 14 teams) | C08 variant | available |
+| 14 | Position labels: `Attacking Midfielder`, `Left Winger`, `Right Winger`, `Left Midfielder`, `Right Midfielder` (players can list several) | peer group | available |
+| 15 | Split of chances created by situation | C04 context | not shown (the "Situation" filter applies to shots only) |
+| 16 | Subject's past seasons | D6 | xA and xG absent in every past season; chances created only in 2022/23, 2020/21 and 2018/19 (Eredivisie) |
+| 17 | slgr.gr match sheets: line-ups, substitution and card minutes, `Time played` | D5, C13 | available (`Time played` may appear a day or more after the match) |
+| 18 | Calendar (slgr.gr) | snapshots, video sample | PAOK–Kalamata 12/10 (round 6), Kalamata–OFI 18/10 (round 7), Olympiacos–Kalamata 25/10 (round 8); round 10 ends 08/11; Atromitos–AEK (round 7) undated |

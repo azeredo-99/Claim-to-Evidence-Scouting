@@ -1,7 +1,8 @@
 # Method
 
-**Version:** 1.0-rc1 (draft, not frozen). It becomes `1.0` at the tag `prereg-v1.0`, before any real
-player or peer data is collected and before the post-freeze matches are tagged.
+**Version:** 1.0 — pre-registered at the tag `prereg-v1.0` on 2026-10-11, before any player or
+peer data was collected and before any match of the video sample was coded. The only information
+seen beforehand was the list of field labels (`docs/VERIFICATION_2026-10-11.md`), never values.
 
 ## 1. Principle
 
@@ -59,7 +60,9 @@ actually point the other way (video proportions).
 
 `last_match_date` and `snapshot_date` are filled from the official calendar, with
 `last_match_date < snapshot_date < first kick-off of the next round`. Postponed matches count only
-if played on or before `last_match_date`.
+if played on or before `last_match_date`. For `v1` this is 2026-11-08 (last round-10 match on
+slgr.gr; Atromitos–AEK of round 7 had no date on 2026-10-11) with the snapshot on 2026-11-10. `v2`
+dates are filled by the same rule once the calendar shows the last round before 21 December.
 
 ## 5. Metrics
 
@@ -72,12 +75,16 @@ transformation and limitations.
 - A missing value for a peer excludes that peer from that metric only; `N` is reported per metric.
 - A metric missing from the source for every player → `UNAVAILABLE`. It is never replaced by a
   different metric.
+- A statistic row that the provider does not show for a player is **missing, never zero**.
 
 ## 6. Peer group
 
-- **Inclusion:** FotMob primary position in the configured list (attacking midfielder, left
-  winger, right winger; exact labels fixed at the field check), Super League 1 minutes ≥ the
-  snapshot minimum. The subject is never part of his own reference group.
+- **Inclusion:** the **first position FotMob lists** for the player on the squad page is one of
+  `Attacking Midfielder`, `Left Winger`, `Right Winger`, `Left Midfielder`, `Right Midfielder`
+  (labels confirmed on 2026-10-11), and Super League 1 minutes ≥ the snapshot minimum. Only the
+  first listed position counts, so no player is counted twice; the subject's own label is reported.
+  The subject is never part of his own reference group. Wide midfielders are included because in
+  this league they play roles close to wingers, and the group would otherwise be small.
 - **Minimum group size:** `N ≥ 20`. Rationale: with 20 peers, the top quarter holds 5 players, so
   the band does not hinge on one or two individuals. Below 20 → `INSUFFICIENT_DATA`.
 - **Limitations of these thresholds:** 450 minutes is a floor for inclusion, not a reliability
@@ -122,9 +129,15 @@ is not evaluable, the claim is `INSUFFICIENT_DATA` or `UNAVAILABLE`.
 
 ## 8. C08 — defensive volume and possession
 
-- **Raw value — what it measures:** tackles + interceptions per 90 minutes played, as the provider
-  defines them. This is the volume of successful defensive interventions. It mixes the player's
-  behaviour, his role, where he plays, and how often the opponent has the ball.
+- **Raw value — what it measures:** tackles per 90 minutes played, as FotMob reports them
+  ("Tackles"; the provider does not say whether attempts or only won tackles count). It mixes the
+  player's behaviour, his role, where he plays, and how often the opponent has the ball.
+- **Why tackles and not tackles + interceptions:** at the field check FotMob did not show an
+  "Interceptions" row for some attacking players, including the subject, while it did for a
+  centre-back. An absent row is missing, not zero, so tackles + interceptions would leave the
+  subject without a value. The absence may itself mean zero interceptions; dropping the component
+  can only make a *low-volume* claim harder to support, so the choice is the conservative one.
+  Tackles + interceptions remains a **sensitivity variant**, evaluated where available.
 - **Possession-adjusted value — what it tries to measure:** volume per unit of defensive
   opportunity, using the opponent's share of possession as the proxy:
   `adjusted = raw × 50 / (100 − team possession %)`.
@@ -139,6 +152,7 @@ is not evaluable, the claim is `INSUFFICIENT_DATA` or `UNAVAILABLE`.
   variant**, not a better metric. Under Rule L the verdict is the weakest of the two, so the claim
   is only supported if it holds both with and without the possession correction. If team
   possession is unavailable, the variant is reported as not evaluable and the raw verdict stands.
+  Team possession is FotMob's "Average possession" (team stats; all 14 teams listed).
 - **What C08 can never show:** commitment, effort or positioning. Those are tested on video (C09).
 
 ## 9. Rule V — video proportions
@@ -206,8 +220,11 @@ recruitment decision. Passing software tests is not football validation.
 
 ## 13. Freezing and deviations
 
-- `METHOD.md`, `TAGGING_PROTOCOL.md`, `config/metrics.yaml` and the player's `claims.yaml` are
-  frozen together at `prereg-v1.0`.
+- `METHOD.md`, `config/metrics.yaml`, the player's `claims.yaml` and `player.yaml` (peer
+  positions, snapshots, video sample) are frozen together at `prereg-v1.0`.
+- `TAGGING_PROTOCOL.md` is frozen separately at `protocol-v1.0`, after the pilot and **before the
+  first match of the video sample is coded**. The sample itself is already fixed in `player.yaml`,
+  so the timing of the pilot cannot influence which matches are coded.
 - Any later change creates a new version with date, reason and whether results had been seen.
   Results under the frozen version are always reported.
 - Data problems found after a snapshot go to `DEVIATIONS.md`.

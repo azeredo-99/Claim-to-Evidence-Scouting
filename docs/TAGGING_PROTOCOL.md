@@ -1,8 +1,8 @@
 # Video tagging protocol
 
-**Version:** 1.0-rc1 (draft). Frozen at `prereg-v1.0` after a 20-minute pilot on a match of
-another team. Changes after the freeze create a new version, and matches coded under different
-versions are reported separately.
+**Version:** 1.0-rc2 (draft). Frozen at the tag `protocol-v1.0` after a 20-minute pilot on a match
+of another team, and before the first match of the video sample is coded. Changes after the freeze
+create a new version, and matches coded under different versions are reported separately.
 
 ## 1. Scope
 
@@ -21,9 +21,14 @@ claim depends on them.
 
 ## 2. Sample
 
-- The three matches already watched for the report, plus **the first three league matches played
-  after the freeze date**, whatever the opponent. If a match has no legitimate full video, take the
-  next one and record why.
+- Fixed on 2026-10-11 in `players/mendes-moreira/player.yaml`, before any of them was coded: the
+  three matches already watched for the report (Aris, Volos, Panathinaikos) and the next three
+  league matches (PAOK 12/10, OFI 18/10, Olympiacos 25/10). The pipeline rejects any coded match
+  outside this list. If a match has no legitimate full video, it is reported as missing, not
+  replaced.
+- **Pilot:** 20 minutes of a match of another team, coding that team's left-sided attacking player
+  with the same definitions (`sample=pilot`; its segments cover only the 20 minutes watched). The
+  pilot is never used as evidence.
 - Results for video claims are reported in total **and** split into `pre_report` and
   `post_freeze` matches.
 - One match is re-coded at least 7 days later. Agreement and every disagreement are reported. This
@@ -60,7 +65,7 @@ claim depends on them.
 | Column | Values |
 |---|---|
 | `match_id`, `period` | as above |
-| `clock` | `mm:ss` of the broadcast clock; added time keeps counting (`46:30` in period 1 is valid) |
+| `clock` | `mm:ss` of the broadcast clock; added time keeps counting (`46:30` in period 1 is valid). If the broadcast shows `45:00 +02:30`, code `47:30` |
 | `event` | `chance_created` / `fb_run` / `reception` / `protest` |
 | `third` | `D` / `M` / `A` (Kalamata's defensive, middle, attacking third) |
 | `lane` | `LW` / `LHS` / `C` / `RHS` / `RW` |
@@ -101,6 +106,7 @@ change of shape, before coding that period's events.
 - **Counts:** his pass or cross after which the receiving team-mate's next action is a shot (any
   outcome). Includes assists.
 - **Does not count:** a shot after a rebound, or after the receiver dribbles past an opponent.
+- Any body part counts: a headed pass that sets up a shot is a `chance_created`.
 - **Phase:** `set_piece` if the pass is the delivery of a corner or free kick, or is made within
   5 seconds of a corner or free kick taken by his team. Throw-ins are `open_play`. `unknown` if the
   restart is not visible; `unknown` is excluded from C04 and counted.
@@ -134,6 +140,8 @@ Only coded in `wide_left` segments for C09; coded in every role for D2 exposure.
   same possession within 5 seconds; otherwise `none`.
 - **Repeated runs:** a new run starts only after the previous one ended and the start conditions
   hold again.
+- **Back-line changes:** the runner stays the player identified at the start of the possession,
+  even if the opponent's back line changes shape during it.
 - **Still subjective:** distance estimation on a broadcast; "level with" when the camera is
   oblique; the exact end moment (±1 s); role assignment. Mitigations: the `ambiguous` category, the
   sensitivity analysis in `METHOD.md`, the re-coded match, the published clock.
@@ -141,7 +149,7 @@ Only coded in `wide_left` segments for C09; coded in every role for D2 exposure.
 ### `reception` (D4)
 
 - **Counts:** he receives a team-mate's pass in open play in `M` or `A`.
-- **Does not count:** loose balls, receptions from set pieces, receptions in `D`.
+- **Does not count:** loose balls, receptions from set pieces or throw-ins, receptions in `D`.
 - **Outcome:** `to_feet` or `in_behind` (received beyond the opponent's last defender).
 - `between_lines`: `Y` if received behind the opponent's midfield line and in front of their back
   line.

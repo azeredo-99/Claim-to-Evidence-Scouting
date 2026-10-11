@@ -80,9 +80,9 @@ claims:
     question: Q4
     category: defensive
     report_text: "Low defensive contribution."
-    statement: Low volume of tackles + interceptions per 90, with and without the possession correction.
-    rule: {type: league_position, metric: tackles_interceptions_p90, direction: low,
-           possession_variant: true}
+    statement: Low volume of tackles per 90, with and without the possession correction.
+    rule: {type: league_position, metric: tackles_p90, direction: low,
+           possession_variant: true, variant_metrics: [tackles_interceptions_p90]}
     recruitment_relevance: high
     data_confidence: medium
     limitations: [Volume, not commitment; role confounds it.]
