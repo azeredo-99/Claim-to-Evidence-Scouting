@@ -40,6 +40,8 @@ League verdicts describe where the player's season value sits among peers (`leag
 - **Analyses (main + pre-registered sensitivity):**
   - main: PARTIALLY_SUPPORTED — higher than 28 of 41 peers (0 tied): above the median, below the top quarter
   - strict_minutes: PARTIALLY_SUPPORTED — higher than 16 of 26 peers (0 tied): above the median, below the top quarter
+  - main (method 1.0): PARTIALLY_SUPPORTED — higher than 28 of 41 peers (0 tied): above the median, below the top quarter
+  - strict_minutes (method 1.0): PARTIALLY_SUPPORTED — higher than 16 of 26 peers (0 tied): above the median, below the top quarter
 - **Limitations:** Includes set pieces which favours set-piece takers.
 
 ### C02 — supported
@@ -52,6 +54,8 @@ League verdicts describe where the player's season value sits among peers (`leag
 - **Analyses (main + pre-registered sensitivity):**
   - main: SUPPORTED — higher than 40 of 41 peers (0 tied): top quarter
   - strict_minutes: SUPPORTED — higher than 26 of 26 peers (0 tied): top quarter
+  - main (method 1.0): SUPPORTED — higher than 40 of 41 peers (0 tied): top quarter
+  - strict_minutes (method 1.0): SUPPORTED — higher than 26 of 26 peers (0 tied): top quarter
 - **Limitations:** Proprietary xA model.
 
 ### C04 — inconclusive
@@ -86,6 +90,8 @@ League verdicts describe where the player's season value sits among peers (`leag
 - **Analyses (main + pre-registered sensitivity):**
   - main: SUPPORTED — higher than 41 of 41 peers (0 tied): top quarter
   - strict_minutes: SUPPORTED — higher than 26 of 26 peers (0 tied): top quarter
+  - main (method 1.0): SUPPORTED — higher than 41 of 41 peers (0 tied): top quarter
+  - strict_minutes (method 1.0): SUPPORTED — higher than 26 of 26 peers (0 tied): top quarter
 
 ### C07 — not supported
 
@@ -97,6 +103,8 @@ League verdicts describe where the player's season value sits among peers (`leag
 - **Analyses (main + pre-registered sensitivity):**
   - main: NOT_SUPPORTED — lower than 3 of 41 peers (0 tied): at or below the median
   - strict_minutes: NOT_SUPPORTED — lower than 0 of 26 peers (0 tied): at or below the median
+  - main (method 1.0): NOT_SUPPORTED — lower than 3 of 41 peers (0 tied): at or below the median
+  - strict_minutes (method 1.0): NOT_SUPPORTED — lower than 0 of 26 peers (0 tied): at or below the median
 
 ### C16 — supported
 
@@ -108,6 +116,8 @@ League verdicts describe where the player's season value sits among peers (`leag
 - **Analyses (main + pre-registered sensitivity):**
   - main: SUPPORTED — higher than 31 of 41 peers (0 tied): top quarter
   - strict_minutes: SUPPORTED — higher than 22 of 26 peers (0 tied): top quarter
+  - main (method 1.0): SUPPORTED — higher than 31 of 41 peers (0 tied): top quarter
+  - strict_minutes (method 1.0): SUPPORTED — higher than 22 of 26 peers (0 tied): top quarter
 
 ### C08 — supported
 
@@ -121,6 +131,10 @@ League verdicts describe where the player's season value sits among peers (`leag
   - strict_minutes: SUPPORTED — lower than 22 of 26 peers (0 tied): top quarter
   - possession_adjusted: SUPPORTED — lower than 30 of 36 peers (0 tied): top quarter
   - metric:tackles_interceptions_p90: SUPPORTED — lower than 35 of 41 peers (0 tied): top quarter
+  - main (method 1.0): SUPPORTED — lower than 35 of 41 peers (0 tied): top quarter
+  - strict_minutes (method 1.0): SUPPORTED — lower than 22 of 26 peers (0 tied): top quarter
+  - possession_adjusted (method 1.0): SUPPORTED — lower than 30 of 36 peers (0 tied): top quarter
+  - metric:tackles_interceptions_p90 (method 1.0): SUPPORTED — lower than 35 of 41 peers (0 tied): top quarter
 - **Limitations:** Volume not commitment; role confounds it.
 
 ### C09 — inconclusive

@@ -15,7 +15,7 @@ from matplotlib.figure import Figure
 from matplotlib.patches import Rectangle
 from mplsoccer import Pitch
 
-from c2e.config import LeaguePositionRule, MetricDef
+from c2e.config import ClaimsFile, LeaguePositionRule, MetricDef
 from c2e.evidence import ClaimResult, Verdict
 from c2e.metrics import compute_metric, missing_columns
 from c2e.tagging import LANE_Y, THIRD_X
@@ -328,6 +328,62 @@ def pitch_map(
         loc="left",
     )
     _footer(fig, attribution, "Own video coding; positions are zone centres, not exact locations")
+    return fig
+
+
+RULE_TEXT = {
+    "league_position": "League position vs peers",
+    "video_proportion": "Own video coding",
+    "match_majority": "Own video coding",
+}
+
+
+def _short(text: str, width: int) -> str:
+    return text if len(text) <= width else text[: width - 1].rstrip() + "…"
+
+
+def claim_map(claims: ClaimsFile, title: str, video_note: str | None = None) -> Figure:
+    """Pre-registered claims as a table: what the report says → what is tested → how."""
+    rows = claims.claims
+    fig = plt.figure(figsize=(13, 1.9 + 0.66 * len(rows)))
+    ax = fig.add_axes((0.01, 0.1, 0.98, 0.8))
+    ax.set_xlim(0, 1)
+    ax.set_ylim(len(rows), -0.7)
+    ax.axis("off")
+    fig.text(0.01, 0.97, title, fontsize=14, weight="bold", va="top")
+    fig.text(
+        0.01,
+        0.925,
+        "Each claim gets a test and a decision rule, fixed before the data is collected "
+        f"(claims {claims.status}; method {claims.method_version})",
+        fontsize=9.5,
+        color=INK_2,
+        va="top",
+    )
+    heads = ((0.0, "The scouting report says"), (0.36, "Tested statement"), (0.78, "Evidence"))
+    for x, head in heads:
+        ax.text(x, -0.45, head, fontsize=8.5, color=MUTED, weight="bold")
+    for i, c in enumerate(rows):
+        if i:
+            ax.axhline(i - 0.5, color=GRID, lw=0.8)
+        quote = textwrap.fill(f"{c.id}  “{_short(c.report_text, 95)}”", 52)
+        ax.text(0.0, i, quote, fontsize=8.2, va="center", color=INK_2)
+        ax.text(0.36, i, textwrap.fill(c.statement, 60), fontsize=8.4, va="center")
+        evidence = RULE_TEXT[c.rule.type]
+        unavailable = c.rule.type != "league_position" and video_note is not None
+        if unavailable:
+            evidence += " — unavailable"
+        colour = MUTED if unavailable else INK
+        ax.text(0.78, i, textwrap.fill(evidence, 24), fontsize=8.2, va="center", color=colour)
+    notes = []
+    if video_note:
+        notes.append("Video claims unavailable: no legitimate full-match video of the league.")
+    if claims.untested:
+        topics = [u.report_text.split(".")[0].replace("…", "").strip() for u in claims.untested]
+        notes.append(f"Not tested ({len(topics)}): " + "; ".join(topics) + ".")
+    fig.text(
+        0.01, 0.02, textwrap.fill("  ·  ".join(notes), 190), fontsize=7.8, color=MUTED, va="bottom"
+    )
     return fig
 
 

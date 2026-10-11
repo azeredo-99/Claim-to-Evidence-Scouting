@@ -7,6 +7,7 @@ from typing import Annotated
 
 import typer
 
+from c2e.config import load_metrics
 from c2e.contracts import DataContractError
 from c2e.pipeline import load_inputs, run
 from c2e.report import write_report
@@ -56,3 +57,20 @@ def run_cmd(
     for r in result.results:
         typer.echo(f"{r.claim.id:4} {r.verdict.value:20} {r.summary}")
     typer.echo(f"report: {path}")
+
+
+@app.command("map")
+def map_cmd(
+    player_dir: PlayerDir,
+    out: Annotated[Path, typer.Option(help="PNG file to write")],
+    metrics: MetricsOpt = Path("config/metrics.yaml"),
+) -> None:
+    """Draw the pre-registered claims: report quote → tested statement → evidence."""
+    from c2e import viz
+    from c2e.config import load_claims, load_player
+
+    player = load_player(player_dir / "player.yaml")
+    claims = load_claims(player_dir / "claims.yaml", load_metrics(metrics))
+    title = f"{player.name}: from scouting report to testable claims"
+    viz.save(viz.claim_map(claims, title, player.video_unavailable_reason), out)
+    typer.echo(f"claim map: {out}")

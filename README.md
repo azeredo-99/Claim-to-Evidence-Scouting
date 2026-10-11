@@ -15,6 +15,24 @@ scouting conclusion stays with the scout.
 > so the three video claims are reported as unavailable (see `docs/DEVIATIONS.md`). No real data
 > collected yet; the figures below come from synthetic data, where the video layer is shown.
 
+## The case study: Ahmad Mendes Moreira
+
+The scouting report ([PDF](players/mendes-moreira/original-report.pdf)) turned into claims, each
+with its test, before any data was collected (`uv run c2e map players/mendes-moreira --out map.png`):
+
+![Claim map](reports/mendes-moreira/claim_map.png)
+
+```mermaid
+flowchart LR
+    A[Scouting report] --> B[Claims + decision rules<br/>pre-registered]
+    B --> C[League snapshot<br/>FotMob, validated]
+    B --> D[Own video coding<br/>unavailable for this league]
+    C --> E[Evidence engine<br/>Rule L / V / M]
+    D --> E
+    E --> F[Evidence report]
+    F --> G[Scout's revised conclusion]
+```
+
 ## Demo (synthetic data, runs anywhere)
 
 ```bash

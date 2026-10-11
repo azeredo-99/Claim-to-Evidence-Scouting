@@ -100,3 +100,15 @@ def test_coded_matches_must_belong_to_the_pre_registered_sample(tmp_path: Path) 
         assert "L07" in str(exc)
     else:
         raise AssertionError("a match outside the plan was accepted")
+
+
+def test_claim_map_renders_for_the_real_player(tmp_path: Path) -> None:
+    from c2e import viz
+    from c2e.config import load_claims, load_metrics, load_player
+
+    player_dir = ROOT / "players" / "mendes-moreira"
+    claims = load_claims(player_dir / "claims.yaml", load_metrics(ROOT / "config" / "metrics.yaml"))
+    player = load_player(player_dir / "player.yaml")
+    out = tmp_path / "map.png"
+    viz.save(viz.claim_map(claims, "t", player.video_unavailable_reason), out)
+    assert out.stat().st_size > 10_000
