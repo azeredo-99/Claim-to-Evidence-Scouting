@@ -139,3 +139,22 @@ def test_d6_keeps_seasons_apart_and_marks_missing_fields() -> None:
     assert table.loc[0, "xa_p90"] == "unavailable"
     assert table.loc[1, "chances_created_p90"] == "unavailable"  # zero minutes
     assert table.loc[0, "npxg_p90"] == "unavailable"  # column absent from the source
+
+
+def test_d6_season_without_minutes_stays_unavailable() -> None:
+    hist = validate_history(
+        pd.DataFrame(
+            {
+                "season": ["2025/2026"],
+                "competition": ["L2"],
+                "team": ["T"],
+                "minutes": [None],
+                "chances_created": [None],
+                "source": ["s"],
+                "retrieved_at": ["2030-01-01"],
+            }
+        )
+    )
+    table = d6_history(hist)
+    assert table.loc[0, "minutes"] == "unavailable"
+    assert table.loc[0, "chances_created_p90"] == "unavailable"

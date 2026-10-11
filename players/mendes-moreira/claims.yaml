@@ -1,8 +1,9 @@
-# Pre-registered at the tag prereg-v1.0 (2026-10-11). Changes create a new version; see docs/DEVIATIONS.md.
+# Pre-registered at the tag prereg-v1.0 (2026-10-11, method 1.0). Claims unchanged since; method 1.1
+# changes how omitted rows are read (docs/DEVIATIONS.md).
 # `report_text` quotes the scouting report (G. Azeredo, data as of 08/10/2026) verbatim.
 player_id: mendes-moreira
 status: frozen
-method_version: "1.0"
+method_version: "1.1"
 questions:
   Q1: Is his chance creation sustained by the indicators, or explained by a small early sample?
   Q2: How much of his creation depends on set pieces?

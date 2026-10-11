@@ -1,8 +1,14 @@
 # Method
 
-**Version:** 1.0 — pre-registered at the tag `prereg-v1.0` on 2026-10-11, before any player or
-peer data was collected and before any match of the video sample was coded. The only information
-seen beforehand was the list of field labels (`docs/VERIFICATION_2026-10-11.md`), never values.
+**Version:** 1.1 (2026-10-11). Version 1.0 was pre-registered at the tag `prereg-v1.0`, before any
+player or peer data was collected; the only information seen beforehand was the list of field
+labels (`docs/VERIFICATION_2026-10-11.md`). Version 1.1 changes one reading of the data, explained
+in section 5 and in `DEVIATIONS.md`; the 1.0 verdict is still reported wherever it differs.
+
+| Version | Date | Change |
+|---|---|---|
+| 1.0 | 2026-10-11 | Pre-registration (`prereg-v1.0`) |
+| 1.1 | 2026-10-11 | An omitted statistic row is read as 0 for players whose stats section exists; the 1.0 reading (missing) stays as a sensitivity analysis |
 
 ## 1. Principle
 
@@ -76,7 +82,15 @@ transformation and limitations.
 - A missing value for a peer excludes that peer from that metric only; `N` is reported per metric.
 - A metric missing from the source for every player → `UNAVAILABLE`. It is never replaced by a
   different metric.
-- A statistic row that the provider does not show for a player is **missing, never zero**.
+- **Omitted rows (1.1).** FotMob omits a statistic row when its value is zero: in the rehearsal
+  snapshot no explicit zero appeared for chances created, non-penalty xG, touches in the box,
+  fouls won, tackles or interceptions, while players with up to 385 minutes lacked those rows.
+  For a player whose stats section exists (at least one detailed statistic shown), an omitted row
+  is therefore read as **0**. A player with no detailed statistic at all has no section and stays
+  missing. Reading omitted rows as missing (the 1.0 rule) would drop exactly the lowest peers and
+  favour every "low value" claim (C05, C07, C08). The 1.0 reading is kept as a sensitivity
+  analysis: under Rule L the final verdict is the weakest of both, and the 1.0 verdict is printed
+  when it differs.
 
 ## 6. Peer group
 

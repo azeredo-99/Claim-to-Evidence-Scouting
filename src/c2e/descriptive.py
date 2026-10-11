@@ -87,11 +87,11 @@ def d6_history(history: pd.DataFrame) -> pd.DataFrame:
             "season": row["season"],
             "competition": row["competition"],
             "team": row["team"],
-            "minutes": row["minutes"],
+            "minutes": UNAVAILABLE if pd.isna(row["minutes"]) else int(row["minutes"]),
         }
         for col in ("chances_created", "xa", "npxg"):
             raw = row.get(col)
-            if raw is None or pd.isna(raw):
+            if raw is None or pd.isna(raw) or pd.isna(row["minutes"]):
                 out[f"{col}_p90"] = UNAVAILABLE
             else:
                 value = rate_from_totals([float(raw)], [float(row["minutes"])], 90)

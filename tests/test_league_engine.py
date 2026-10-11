@@ -115,10 +115,20 @@ def test_missing_column_is_unavailable_never_substituted() -> None:
     assert "xa" in result.summary
 
 
-def test_subject_value_not_reported_is_unavailable() -> None:
+def test_subject_without_any_stats_section_is_unavailable() -> None:
     df = league()
-    df.loc[df["player_id"] == "S", "fouls_won"] = np.nan
+    df.loc[df["player_id"] == "S", ["fouls_won", "tackles", "interceptions"]] = np.nan
     assert run(claim("fouls_won_p90"), df) == Verdict.UNAVAILABLE
+
+
+def test_absent_row_is_read_as_zero_and_the_method_1_0_reading_is_reported() -> None:
+    df = league()
+    df.loc[df["player_id"] == "S", "fouls_won"] = np.nan  # row omitted, other rows shown
+    c = claim("fouls_won_p90", direction="low")
+    result = evaluate_league(c, c.rule, LeagueContext(df, None, METRICS, PLAYER, SNAP))  # type: ignore[arg-type]
+    assert result.analyses[0].data["value"] == 0.0
+    assert "method 1.0 reading: not evaluable" in result.summary
+    assert result.verdict == Verdict.SUPPORTED  # 0 is lower than 19 of the 20 peers (1 tied)
 
 
 def test_subject_below_minimum_minutes_is_insufficient() -> None:
@@ -129,10 +139,17 @@ def test_fewer_than_twenty_peers_is_insufficient_not_relaxed() -> None:
     assert run(claim("fouls_won_p90"), league(n_peers=19)) == Verdict.INSUFFICIENT_DATA
 
 
-def test_peers_with_missing_values_drop_out_of_n() -> None:
+def test_peers_without_a_stats_section_drop_out_but_omitted_rows_count_as_zero() -> None:
     df = league(n_peers=21)
-    df.loc[df["player_id"].isin(["P0", "P1"]), "fouls_won"] = np.nan
-    assert run(claim("fouls_won_p90"), df) == Verdict.INSUFFICIENT_DATA
+    df.loc[df["player_id"].isin(["P0", "P1"]), ["fouls_won", "tackles", "interceptions"]] = np.nan
+    assert run(claim("fouls_won_p90"), df) == Verdict.INSUFFICIENT_DATA  # 19 peers left
+    df = league(n_peers=21)
+    df.loc[df["player_id"].isin(["P0", "P1"]), "fouls_won"] = np.nan  # omitted: read as 0
+    c = claim("fouls_won_p90")
+    result = evaluate_league(c, c.rule, LeagueContext(df, None, METRICS, PLAYER, SNAP))  # type: ignore[arg-type]
+    assert result.analyses[0].data["n_peers"] == 21
+    v10 = next(a for a in result.analyses if a.name == "main (method 1.0)")
+    assert v10.verdict is None  # 19 peers under the method 1.0 reading
 
 
 def test_strict_minutes_variant_can_lower_the_verdict() -> None:
@@ -209,12 +226,10 @@ def test_metric_variant_is_evaluated_where_available_and_never_replaces_the_main
     )
     rule = c.rule
     assert isinstance(rule, LeaguePositionRule)
-    ok = evaluate_league(c, rule, LeagueContext(df, None, METRICS, PLAYER, SNAP))
-    variant = next(a for a in ok.analyses if a.name == "metric:tackles_interceptions_p90")
-    assert variant.verdict is not None
-
-    df.loc[df["player_id"] == "S", "interceptions"] = np.nan  # row absent for the subject
+    df.loc[df["player_id"] == "S", "interceptions"] = np.nan  # row omitted for the subject
     res = evaluate_league(c, rule, LeagueContext(df, None, METRICS, PLAYER, SNAP))
-    variant = next(a for a in res.analyses if a.name == "metric:tackles_interceptions_p90")
-    assert variant.verdict is None and "subject" in variant.detail
-    assert res.verdict == res.analyses[0].verdict  # main metric decides; nothing is treated as zero
+    names = {a.name: a for a in res.analyses}
+    assert names["metric:tackles_interceptions_p90"].verdict is not None  # read as 0
+    old = names["metric:tackles_interceptions_p90 (method 1.0)"]
+    assert old.verdict is None and "subject" in old.detail
+    assert res.analyses[0].name == "main"  # the main metric decides first; variants only lower it

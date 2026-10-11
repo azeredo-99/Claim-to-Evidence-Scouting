@@ -107,7 +107,8 @@ FACTS = pa.DataFrameSchema(
 CARDS = pa.DataFrameSchema(
     {
         "match_id": pa.Column(str, coerce=True),
-        "minute": pa.Column(int, pa.Check.in_range(0, 130), coerce=True),
+        # Empty when the source gives the card but not its minute.
+        "minute": pa.Column(float, pa.Check.in_range(0, 130), nullable=True, coerce=True),
         "card": pa.Column(str, pa.Check.isin(["yellow", "second_yellow", "red"])),
         "reason": pa.Column(str, pa.Check.isin(["dissent_confirmed", "foul", "other", "unknown"])),
         "reason_source": pa.Column(str),
@@ -121,7 +122,8 @@ HISTORY = pa.DataFrameSchema(
         "season": pa.Column(str),
         "competition": pa.Column(str),
         "team": pa.Column(str),
-        "minutes": pa.Column(int, _non_negative(), coerce=True),
+        # Empty when the source shows no minutes for that season (never written as zero).
+        "minutes": pa.Column(float, _non_negative(), nullable=True, coerce=True),
         **{
             c: pa.Column(float, _non_negative(), nullable=True, required=False, coerce=True)
             for c in ("chances_created", "xa", "npxg")

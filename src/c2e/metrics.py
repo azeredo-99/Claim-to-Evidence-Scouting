@@ -20,6 +20,36 @@ class MetricValues:
     excluded: dict[str, str]  # player_id -> reason
 
 
+# Count and expected-value statistics that FotMob shows only when they are non-zero.
+DEEP_STATS = (
+    "chances_created",
+    "xa",
+    "npxg",
+    "touches",
+    "touches_opp_box",
+    "dispossessed",
+    "fouls_won",
+    "tackles",
+    "interceptions",
+)
+
+
+def absent_as_zero(df: pd.DataFrame) -> pd.DataFrame:
+    """Read an absent statistic as 0 for players whose stats section exists (method 1.1).
+
+    A player with no detailed statistic at all has no section: his cells stay missing. Columns the
+    source never provides stay absent, so those metrics remain UNAVAILABLE.
+    """
+    out = df.copy()
+    present = [c for c in DEEP_STATS if c in out.columns and out[c].notna().any()]
+    if not present:
+        return out
+    has_section = out[present].notna().any(axis=1)
+    for col in present:
+        out.loc[has_section & out[col].isna(), col] = 0.0
+    return out
+
+
 def missing_columns(df: pd.DataFrame, metric: MetricDef) -> list[str]:
     """Columns the metric needs that the source does not provide at all."""
     needed = [*metric.numerator, metric.denominator]

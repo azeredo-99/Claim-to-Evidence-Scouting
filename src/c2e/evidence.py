@@ -3,7 +3,7 @@
 from __future__ import annotations
 
 from collections.abc import Sequence
-from dataclasses import dataclass, field
+from dataclasses import dataclass, field, replace
 from enum import StrEnum
 
 import pandas as pd
@@ -17,7 +17,7 @@ from c2e.config import (
     Snapshot,
     VideoProportionRule,
 )
-from c2e.metrics import adjust_for_possession, compute_metric, missing_columns
+from c2e.metrics import absent_as_zero, adjust_for_possession, compute_metric, missing_columns
 from c2e.stats import claim_aligned_position, wilson_interval
 from c2e.tagging import MatchCount, open_play_counts, protest_matches, tracking_counts
 
@@ -177,7 +177,11 @@ def evaluate_league(claim: Claim, rule: LeaguePositionRule, ctx: LeagueContext) 
             f"{minutes} minutes (< {ctx.snapshot.min_minutes})",
         )
 
-    mv = compute_metric(ctx.league, metric)
+    # Method 1.1: FotMob omits a statistic row when its value is zero, so the main analysis reads
+    # an absent row as 0 for players whose stats section exists. The method 1.0 reading (absent =
+    # missing) is kept as a sensitivity analysis and its verdict is reported when it differs.
+    zctx = replace(ctx, league=absent_as_zero(ctx.league))
+    mv = compute_metric(zctx.league, metric)
     if subject_id not in mv.values.index:
         reason = mv.excluded.get(subject_id, "no value")
         verdict = (
@@ -185,40 +189,63 @@ def evaluate_league(claim: Claim, rule: LeaguePositionRule, ctx: LeagueContext) 
         )
         return ClaimResult(claim, verdict, etype, f"subject: {reason}")
 
+    analyses = _league_analyses(zctx, mv.values, subject_id, rule, "")
+    main = analyses[0]
+    if main.verdict is None:
+        return ClaimResult(claim, Verdict.INSUFFICIENT_DATA, etype, main.detail, tuple(analyses))
+
+    mv10 = compute_metric(ctx.league, metric)
+    if subject_id in mv10.values.index:
+        v10 = _league_analyses(ctx, mv10.values, subject_id, rule, " (method 1.0)")
+    else:
+        v10 = [Analysis("main (method 1.0)", None, "not evaluable: subject row not shown")]
+    analyses += v10
+
+    final = weakest_league([a.verdict for a in analyses if a.verdict is not None])
+    events = float(mv.events[subject_id])
+    summary = f"{main.data['value']:.2f} {metric.unit} ({events:g} in {minutes} min); {main.detail}"
+    if final != main.verdict:
+        summary += "; a sensitivity analysis lowers the verdict"
+    v10_main = v10[0].verdict
+    if v10_main is None:
+        summary += "; method 1.0 reading: not evaluable"
+    else:
+        v10_final = weakest_league([a.verdict for a in v10 if a.verdict is not None])
+        if v10_final != final:
+            summary += f"; method 1.0 verdict: {v10_final.value}"
+    return ClaimResult(claim, final, etype, summary, tuple(analyses))
+
+
+def _league_analyses(
+    ctx: LeagueContext, values: pd.Series, subject_id: str, rule: LeaguePositionRule, suffix: str
+) -> list[Analysis]:
+    """Main analysis and the pre-registered sensitivity analyses for one reading of the data."""
     analyses = [
         _position_analysis(
-            "main",
+            "main" + suffix,
             subject_id,
-            mv.values,
+            values,
             _eligible(ctx, ctx.snapshot.min_minutes, subject_id),
             rule,
             ctx.player.min_peers,
         ),
         _position_analysis(
-            "strict_minutes",
+            "strict_minutes" + suffix,
             subject_id,
-            mv.values,
+            values,
             _eligible(ctx, ctx.snapshot.strict_min_minutes, subject_id),
             rule,
             ctx.player.min_peers,
         ),
     ]
     if rule.possession_variant:
-        analyses.append(_possession_analysis(ctx, mv.values, subject_id, rule))
+        analyses.append(_possession_analysis(ctx, values, subject_id, rule))
     analyses += [
         _metric_variant_analysis(ctx, name, subject_id, rule) for name in rule.variant_metrics
     ]
-
-    main = analyses[0]
-    if main.verdict is None:
-        return ClaimResult(claim, Verdict.INSUFFICIENT_DATA, etype, main.detail, tuple(analyses))
-    evaluable = [a.verdict for a in analyses if a.verdict is not None]
-    final = weakest_league(evaluable)
-    events = float(mv.events[subject_id])
-    summary = f"{main.data['value']:.2f} {metric.unit} ({events:g} in {minutes} min); {main.detail}"
-    if final != main.verdict:
-        summary += "; a sensitivity analysis lowers the verdict"
-    return ClaimResult(claim, final, etype, summary, tuple(analyses))
+    return [
+        replace(a, name=a.name if a.name.endswith(suffix) else a.name + suffix) for a in analyses
+    ]
 
 
 def _metric_variant_analysis(

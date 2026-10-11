@@ -1,5 +1,10 @@
 # Collecting a snapshot
 
+> Since 2026-10-11 the snapshot is collected by a private script (`private/collect_fotmob.py`,
+> not published) that reads the same pages and fields described below. This page documents what it
+> does, so the collection can be repeated by hand. Omitted statistic rows are left empty; the
+> engine reads them as 0 when the player's stats section exists (method 1.1).
+
 How to fill the CSVs for a league snapshot by hand. Copy `templates/` into a **private** folder
 (for example `private/v1/`, which git ignores) and fill one file at a time. Never commit it.
 
@@ -38,13 +43,13 @@ the minimum minutes can be included; the engine filters them.
 
 FotMob league team stats, `Average possession`, all 14 teams.
 
-## `facts.csv` and `cards.csv` — the subject only (slgr.gr)
+## `facts.csv` and `cards.csv` — the subject only (FotMob match list)
 
-One row per Kalamata league match up to `last_match_date`. From the match sheet: starting XI
-(`started`), `Time played` or substitution minutes (`minutes`), and `status`
-(`played`, `unused_sub`, `suspended`, `injured`, `not_in_squad`, `unknown`). One row per card in
-`cards.csv`; `reason` is `dissent_confirmed` only if seen on video, otherwise `foul`, `other` or
-`unknown`.
+One row per Kalamata league match up to `last_match_date`, from the team's fixtures, joined with
+the subject's match list: `minutes` played, `started` (in the line-up rather than on the bench),
+`status` (`played`, `unused_sub`, or `unknown` when he is not in the list — FotMob does not say
+why). One row per card in `cards.csv`; FotMob gives neither the minute nor the reason, so `minute`
+stays empty and `reason` is `unknown`.
 
 ## `history.csv` — the subject's past seasons (D6)
 

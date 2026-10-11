@@ -315,3 +315,29 @@ def test_declared_lack_of_video_makes_video_claims_unavailable_with_the_reason(t
         assert by_id[cid].verdict == Verdict.UNAVAILABLE
         assert "full-match video" in by_id[cid].summary
     assert by_id["C01"].verdict == Verdict.UNAVAILABLE  # no league snapshot in the repository
+
+
+def test_card_without_a_minute_is_accepted() -> None:
+    facts = validate_facts(
+        pd.DataFrame(
+            {
+                "match_id": ["m1"],
+                "date": ["2030-01-01"],
+                "opponent": ["A"],
+                "status": ["played"],
+                "started": [True],
+                "minutes": [90],
+                "source": ["s"],
+            }
+        )
+    )
+    cards = pd.DataFrame(
+        {
+            "match_id": ["m1"],
+            "minute": [None],
+            "card": ["yellow"],
+            "reason": ["unknown"],
+            "reason_source": ["match list"],
+        }
+    )
+    assert len(validate_cards(cards, facts)) == 1

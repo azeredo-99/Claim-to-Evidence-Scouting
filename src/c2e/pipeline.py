@@ -18,6 +18,7 @@ from c2e.config import (
     load_player,
 )
 from c2e.evidence import ClaimResult, LeagueContext, VideoContext, evaluate
+from c2e.metrics import absent_as_zero
 
 
 @dataclass(frozen=True)
@@ -152,7 +153,9 @@ def run(inputs: Inputs) -> RunResult:
     d3 = None
     if inputs.league is not None and subject and subject in set(inputs.league["player_id"]):
         d1 = descriptive.d1_assists_xa(inputs.league, subject)
-        d3 = descriptive.d3_team_rank(inputs.league, subject, inputs.snapshot.min_minutes)
+        d3 = descriptive.d3_team_rank(
+            absent_as_zero(inputs.league), subject, inputs.snapshot.min_minutes
+        )
     d2 = d4 = None
     if inputs.events is not None and inputs.segments is not None:
         d2 = tagging.runs_by_role(inputs.events, inputs.segments, match_ids)

@@ -9,7 +9,8 @@ unavailable.
 It does not rate players, weight claims or recommend signings. The engine applies the rules; the
 scouting conclusion stays with the scout.
 
-> **Status:** claims and method pre-registered at the tag `prereg-v1.0` (2026-10-11). Video
+> **Status:** claims and method pre-registered at the tag `prereg-v1.0` (2026-10-11); method 1.1
+> changes how omitted FotMob rows are read (see `docs/DEVIATIONS.md`). Video
 > evidence for the case study is closed: no legitimate full-match video of the league is available,
 > so the three video claims are reported as unavailable (see `docs/DEVIATIONS.md`). No real data
 > collected yet; the figures below come from synthetic data, where the video layer is shown.
