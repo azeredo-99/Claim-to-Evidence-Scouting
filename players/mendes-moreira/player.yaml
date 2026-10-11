@@ -1,10 +1,10 @@
 id: mendes-moreira
 name: Ahmad Mendes Moreira
 team: Kalamata FC
-provider_id: null # FotMob player id, filled at the field check
+provider_id: "947883" # FotMob player id (field check 2026-10-11)
 attribution: "Data: FotMob (season totals, retrieved at the snapshot date); facts: slgr.gr; video coding: own"
 is_synthetic: false
-# Exact FotMob position labels to be confirmed at the field check (docs/DATA_SOURCES.md, item 14).
+# FotMob position labels confirmed 2026-10-11 (docs/DATA_SOURCES.md, item 14); multi-position rule pending (P3).
 peer_positions: [Attacking Midfielder, Left Winger, Right Winger]
 min_peers: 20
 video_n_min: 10
