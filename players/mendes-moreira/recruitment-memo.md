@@ -51,8 +51,8 @@ _Write each claim the data did not support, and what that changes in the assessm
 - **D1 — assists and xA:**
 - **D3 — within Kalamata:**
 - **D5 — availability and cards:**
-- **D6 — past seasons:** xA and xG do not exist for his past seasons on the source; only the
-  seasons listed in the report are comparable, each on its own.
+- **D6 — past seasons:** each season and competition on its own, never pooled; the source has no
+  xA or xG for his past seasons.
 
 ## 6. Revised conclusion (scout)
 
