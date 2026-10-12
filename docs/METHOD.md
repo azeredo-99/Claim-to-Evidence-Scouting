@@ -52,7 +52,9 @@ actually point the other way (video proportions).
 - **League data:** FotMob season totals for Super League 1 (Greece), collected manually at a
   snapshot (see `DATA_SOURCES.md`).
   Every row carries `source`, `url` and `retrieved_at`. Raw snapshots are kept out of git.
-- **Facts:** official match sheets (slgr.gr), cross-checked against another free source.
+- **Facts:** official match sheets (slgr.gr), cross-checked against another free source. Since
+  2026-10-11 they come from FotMob's match list, because slgr.gr blocks scripted access
+  (`DEVIATIONS.md`).
 - **Video:** the scout's own coding under `TAGGING_PROTOCOL.md`.
 - **Never mixed:** a metric's numerator and denominator come from the same source and snapshot;
   seasons and competitions are never pooled.

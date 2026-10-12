@@ -17,8 +17,9 @@ scouting conclusion stays with the scout.
 
 ## The case study: Ahmad Mendes Moreira
 
-The scouting report ([PDF](players/mendes-moreira/original-report.pdf)) turned into claims, each
-with its test, before any data was collected (`uv run c2e map players/mendes-moreira --out map.png`):
+The scouting report ([PDF](players/mendes-moreira/original-report.pdf); written after watching three
+matches live — the club-fit paragraph is a hypothetical scenario, not advice to a real club) turned
+into claims, each with its test, before any data was collected (`uv run c2e map players/mendes-moreira --out map.png`):
 
 ![Claim map](reports/mendes-moreira/claim_map.png)
 
@@ -100,8 +101,8 @@ uv run ruff check . && uv run ruff format --check . && uv run mypy && uv run pyt
 
 ## Data and attribution
 
-League statistics for the case study come from FotMob; official match facts from slgr.gr; video
-coding is the author's own.
+League statistics and match facts for the case study come from FotMob; the calendar from the
+official league site (slgr.gr). Video coding was planned but is unavailable for this league.
 See [`docs/DATA_SOURCES.md`](docs/DATA_SOURCES.md).
 
 *Independent portfolio project. Not affiliated with any club; not a recruitment decision.*
